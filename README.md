@@ -1,0 +1,1 @@
+# npmp-seminarska-QCA
