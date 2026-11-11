@@ -1,0 +1,76 @@
+\extrachap{Navodila za izdelavo seminarske naloge}
+
+\section*{Tehnična navodila za predlogo}
+\begin{itemize}
+\item Vaše datoteke so v direktoriju \texttt{SkupinaXX}, kjer \texttt{XX} predstavlja dvomestno številko vaše skupine (npr.\ \texttt{Skupina07}). Glavna datoteka je \texttt{main.tex}.
+\item Za začetek uporabite vzorec v direktoriju \texttt{Skupina01}, ki prikazuje zgradbo poglavja, slike, tabele, enačbe, kvantna vezja in programsko kodo.
+\item Slike shranite v poddirektorij \texttt{img} svojega direktorija, po možnosti v vektorskem formatu PDF; rastrske slike (npr. posnetke zaslona) v formatu PNG.
+\item Vse oznake (\texttt{\textbackslash label}) začnite z \texttt{gXX:}, kjer \texttt{XX} predstavlja številko vaše skupine (npr.\ \texttt{g07:fig:polni\_sestevalnik}).
+\item Vire navajajte z ukazom \texttt{\textbackslash cite}. Dodajte jih v skupno datoteko \texttt{references.bib}, ki je v korenskem direktoriju. Če je vir že vsebovan v datoteki, se sklicujte na obstoječi vnos. Ključe novih vnosov začnite z \texttt{gXX:}.
+\item Vsak nov vir mora obstajati in biti dosegljiv: navedite polje \texttt{doi} ali \texttt{url}.
+\end{itemize}
+
+
+\section*{Potek dela}
+
+V okviru seminarja se boste ukvarjali s procesnimi platformami, ki za delovanje izkoriščajo kvantne pojave, s kvantnimi celičnimi avtomati (QCA) in s kvantnimi računalniki (QC). Delo poteka v skupinah z največ štirimi študenti. Cilj seminarja so izdelki in poročila, ki jih ob zaključku združimo v skupen zbornik (glej rezultate seminarjev iz prejšnjih let).
+
+\begin{enumerate}
+\item \textbf{Prijava teme (rok 15. 11. 2026):} Oddajte enostranski predlog, ki vsebuje naslov, raziskovalno vprašanje, pričakovani rezultat (hipotezo), metrike, s katerimi boste odgovorili na vprašanje, načrt poskusov, potrebna orodja in razdelitev dela med člane.
+\item \textbf{Vmesne konzultacije}
+\item \textbf{Oddaja (rok 22. 11. 2026):} Oddajte izvorne datoteke poročila v \LaTeX u, poročilo v formatu PDF, prosojnice in povezavo do repozitorija.
+\item \textbf{Predstavitev in zagovor (v tednu od 23. 11. 2026:} Vsaka skupina predstavi svoje delo v približno 10 minutah in nato sledijo vprašanja.
+\end{enumerate}
+
+Za skupinsko delo uporabljajte repozitorij (npr.\ GitHub ali GitLab). Repozitorij naj vsebuje vse izvorne datoteke (strukture QCA, programsko kodo, skripte za izris grafov) in datoteko \texttt{README} z navodili, kako ponovimo vaše rezultate. Zgodovina sprememb v repozitoriju je del dokazila o vašem delu. Poročilo pišite v okolju \LaTeX, za skupinsko delo lahko uporabite npr. Overleaf\footnote{\url{https://www.overleaf.com/}}. Vire iščite z iskalniki znanstvene literature\footnote{\url{https://scholar.google.com}, \url{https://www.sciencedirect.com}, \url{https://www.scopus.com}, \url{https://arxiv.org}}.
+
+
+\section*{Zgradba poročila}
+
+Poročilo naj obsega približno 10 strani in ima strukturo znanstvenega članka (glej vzorec v \texttt{Skupina01}):
+\begin{itemize}
+\item \textbf{Povzetek:} 5 do 10 vrstic z raziskovalnim vprašanjem, metodo in glavnim rezultatom.
+\item \textbf{Uvod:} kratek opis področja (največ 2 strani) in jasno zapisano raziskovalno vprašanje.
+\item \textbf{Metode:} zasnova poskusov, uporabljena orodja in njihove nastavitve (npr. simulacijski model in parametri v QCADesigner-E, šumni model ali oznaka kvantnega procesorja), metrike.
+\item \textbf{Rezultati:} meritve v tabelah in grafih ter primerjava z literaturo, kjer je to mogoče.
+\item \textbf{Razprava:} odgovor na raziskovalno vprašanje, omejitve in podpoglavje \emph{Kaj ni delovalo}, v katerem opišete vsaj en neuspešen poskus in razlog zanj.
+\item \textbf{Zaključek.}
+\item \textbf{Doprinosi avtorjev:} za vsakega člana v dveh do treh stavkih zapišite, kateri del izdelka in poročila je pripravil.
+\item \textbf{Izjava o uporabi generativne umetne inteligence:} navedite orodja in namen uporabe (npr. pomoč pri kodi, lektoriranje, iskanje virov).
+\end{itemize}
+Literatura se izpiše skupaj za ves zbornik na koncu dokumenta.
+
+Uporaba generativne umetne inteligence je dovoljena, vendar ne nadomesti razumevanja. Na zagovoru mora vsak član skupine znati razložiti svoj izdelek in poročilo.
+
+
+\section*{Izbira teme}
+
+Vsaka tema mora imeti raziskovalno vprašanje, na katero odgovorite z lastnimi poskusi in meritvami. Zgolj opis in implementacija znanega algoritma ali strukture ne zadoščata. Pregled literature (npr. uporaba kvantnih računalnikov na nekem področju) ni samostojna tema.
+
+\section*{Kvantni celični avtomati}
+\label{g00:sec:qca}
+
+Tipična tema seminarja QCA je podrobna recenzija ustreznih novejših znanstvenih člankov. V nalogi implementirajte in opišite izbrane strukture. Primer je zasnova in implementacija reverzibilne strukture QCA. Reverzibilno procesiranje je opisano v~\cite{landauer1961, bennett1973, toffoli1980, frank2017}. Primera osnovnih univerzalnih reverzibilnih logičnih operatorjev sta Toffolijeva in Fredkinova vrata. Potreben pogoj za fizično reverzibilnost je logična reverzibilnost: iz logičnih vrednosti izhodov lahko enolično določimo logične vrednosti vhodov, torej med vhodi in izhodi obstaja bijektivna preslikava. Fizično reverzibilna struktura mora izpolnjevati še dodatni pogoj: če spremenimo izhodne celice v vhodne in obratno ter določimo vhodne logične vrednosti (na prej izhodnih celicah), moramo na izhodih (prej vhodnih celicah) dobiti ustrezne vrednosti, določene z bijekcijo.
+
+V seminarjih s področja QCA:
+\begin{itemize}
+\item Strukture zasnujte in simulirajte z ustreznimi orodji, kot je npr. QCADesigner-E~\cite{walus2004, silltorres2018}\footnote{\url{https://github.com/FSillT/QCADesigner-E}}, ki omogoča tudi izračun disipacije energije. Za avtomatsko snovanje lahko uporabite ogrodje fiction~\cite{walter2019fiction} oziroma orodje MNT Designer\footnote{\url{https://github.com/cda-tum/fiction}, \url{https://github.com/cda-tum/mnt-designer}}, za primerjalna vezja pa zbirko MNT Bench\footnote{\url{https://www.cda.cit.tum.de/mntbench/}}.
+\item Za vsako strukturo poročajte število celic, površino, zakasnitev v urinih ciklih, število križanj, disipacijo energije, ... Navedite uporabljeni simulacijski model in njegove parametre.
+\item V poglavju Metode opišite, ali ste uporabili ad hoc metodo ali ste formalizirali metodo snovanja, ali prosto določite urino cono vsaki celici ali uporabljate strukturirano urino shemo (npr.\ 2DDWave~\cite{vankamamidi2008} ali USE~\cite{campos2016use}), ...
+\item Rezultate primerjajte z vsaj eno objavljeno izvedbo iste funkcije.
+\end{itemize}
+
+
+\newpage
+\section*{Kvantni računalniki}
+\label{g00:sec:qc}
+
+Kvantno računalništvo za procesiranje izkorišča superpozicijo, interferenco in prepletenost kvantnih bitov~\cite{nielsen2010}. Raziskovalci so predstavili kvantne algoritme (npr.\ Shorov~\cite{shor1997} in Groverjev~\cite{grover1996}), ki imajo manjšo časovno kompleksnost kot najboljši znani klasični algoritmi. Fizično izdelani kvantni računalniki so že rešili nekatere posebej izbrane probleme hitreje od najzmogljivejših klasičnih računalnikov~\cite{arute2019quantum, wu2021strong}. Današnji procesorji so še vedno občutljivi na šum~\cite{preskill2018}. Ključen korak do skalabilnih kvantnih računalnikov je popravljanje napak. Leta 2024 je bila prvič prikazana površinska koda, pri kateri se logična napaka z večanjem kode zmanjšuje~\cite{google2025below}.
+
+V seminarjih s področja QC:
+\begin{itemize}
+\item Vezja implementirajte v ustreznem okolju, kot je npr. Qiskit~\cite{qiskit2024}\footnote{\url{https://quantum.cloud.ibm.com/docs}} ali v drugem sodobnem okolju (utemeljite izbiro).
+\item Rezultate idealnega simulatorja primerjajte z rezultati simulatorja s šumnim modelom in po možnosti z zagonom na realnem kvantnem procesorju. Brezplačni paket IBM Quantum Open Plan\footnote{\url{https://quantum.cloud.ibm.com/docs/en/guides/plans-overview}} omogoča omejen čas na kvantnem procesorju, zato poskuse najprej preizkusite s šumnim modelom. V poročilu navedite oznako procesorja, število ponovitev (angl.\ \emph{shots}) in identifikatorje izvedenih nalog (angl.\ \emph{job ID}).
+\item Poročajte o lastnostih vezja pred prevajanjem in po njem (število kubitov, globina, število dvokubitnih vrat).
+\item Kjer je mogoče, rezultat primerjajte s klasično rešitvijo istega problema.
+\end{itemize}

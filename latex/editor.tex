@@ -1,0 +1,86 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% editor.tex -- glavna datoteka zbornika seminarskih nalog
+% Kvantni celični avtomati in kvantno procesiranje (NPMP), 2026/2027
+%
+% V to datoteko lahko dodate pakete, ki ste jih uporabili.
+% Vaše besedilo je v Skupina*/main.tex.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[graybox, envcountchap]{svmult}
+
+% --- kodiranje, jezik, pisave -----------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[slovene]{babel}
+\usepackage{mathptmx}          % Times Roman
+\usepackage{helvet}            % Helvetica
+\usepackage{courier}           % Courier
+
+% --- matematika -------------------------------------------------------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics}           % \ket, \bra, \braket, \expval ...
+
+% --- slike, tabele, diagrami ------------------------------------------
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{booktabs}          % \toprule, \midrule, \bottomrule
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage[separate-uncertainty=true]{siunitx}
+\sisetup{output-decimal-marker={,}}
+\usepackage{tikz}
+\usepackage{quantikz}          % kvantna vezja
+
+% --- programska koda --------------------------------------------------
+\usepackage{xcolor}
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue!60!black}\bfseries,
+  commentstyle=\color{gray},
+  stringstyle=\color{red!50!black},
+  numbers=left, numberstyle=\tiny\color{gray},
+  frame=single, breaklines=true, columns=fullflexible,
+  showstringspaces=false, captionpos=b
+}
+
+% --- ostalo -----------------------------------------------------------
+\usepackage{makeidx}
+\usepackage{multicol}
+\usepackage[bottom]{footmisc}
+\usepackage{comment}
+\usepackage{csquotes}          % \enquote{...}
+\usepackage{import}            % \import{SkupinaXX/}{main}
+\usepackage[numbers,square,sort&compress]{natbib} % številčni sklici [1--3]
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+
+\setlocalecaption{slovene}{theorem}{Izrek}
+\setlocalecaption{slovene}{definition}{Definicija}
+
+\makeindex
+
+\begin{document}
+
+\extrachap{Kvantni celični avtomati in kvantno procesiranje}
+\large Uredila dr. Miha Janež in prof. dr. Miha Mraz\\
+\\
+\normalsize \emph{študijsko leto 2026/2027}
+
+\include{EditorContents/predgovor}
+\include{EditorContents/navodila}
+
+\tableofcontents
+
+% --- poglavja skupin (vsaka skupina doda svojo vrstico) ---------------
+\import{Skupina01/}{main}
+\import{Skupina02/}{main}
+
+\backmatter
+\bibliographystyle{unsrtnat}   % izpise tudi DOI in URL
+\bibliography{references}
+
+\end{document}
