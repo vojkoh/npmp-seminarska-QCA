@@ -1,0 +1,76 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[slovene]{babel}
+\usepackage{fontspec}
+\usepackage{geometry}
+\geometry{left=21mm,right=21mm,top=20mm,bottom=19mm}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\definecolor{navy}{HTML}{1D3348}
+\hypersetup{colorlinks=true,urlcolor=navy}
+\titleformat{\section}{\bfseries\color{navy}\normalsize}{}{0pt}{}
+\titlespacing*{\section}{0pt}{8pt}{2pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlist[itemize]{leftmargin=1.35em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+    {\fontsize{11}{13}\selectfont Prijava teme za seminar QCA}\par
+    \vspace{5pt}
+    {\bfseries\fontsize{16}{19}\selectfont Analiza odpornosti QCA demultiplekserja\par na napake zaradi premikov celic}\par
+    \vspace{6pt}
+    {\small Skupina: 27\qquad Člani: Vojko Hysz, Gašper Suhadolnik, Matic Poženel}
+\end{center}
+
+\vspace{-5pt}
+\section*{Izhodišče}
+Izhajali bomo iz članka Paramjeet in sod. (2026), ki predstavi izdelavo modularnih demultiplekserjev $1:2^n$.Demultiplekser $1:2$ je realiziran s \textbf{27 celicami QCA} in simuliran v QCADesignerju.
+
+Ta članek že navaja, da je za nadaljnje delo med drugim ustrezna tudi analiza odpornosti na različne napake.
+
+\section*{Raziskovalno vprašanje}
+Kako premiki posameznih celic vplivajo na pravilnost delovanja, polarizacijo izhodov in energijsko disipacijo demultiplekserja 1:2, zasnovanega s kvantnimi celičnimi avtomati (QCA)? Katere celice so najbolj občutljive na tovrstne napake?
+
+\section*{Hipoteza}
+Predpostavljamo, da občutljivost vezja na premike celic ni enakomerna. Premiki celic v bližini logičnih vrat (invertorja in majoritetnih vrat) bodo povzročili večje spremembe izhodne polarizacije in hitreje privedli do nepravilnega delovanja kot primerljivi premiki celic v ravnih povezovalnih vodilih.
+
+Pričakujemo tudi, da bodo večji premiki povzročili izrazitejše odstopanje od rezultatov izvirne implementacije.
+
+\section*{Metrike}
+\begin{description}
+    \item[Pravilnost delovanja] Stanja vhodnih in izhodnih QCA celic se morajo ujemati z resničnostno tabelo demultiplekserja pri vseh štirih kombinacijah vhodov.
+    \item [Izhodna polarizacija] Kolikšni sta velikost in stabilnost polarizacije izhodnih celic v ustreznih fazah urnega cikla?
+    \item[Toleranca na premik] Kakšen je največji preizkušeni premik posamezne celice, pri katerem vezje še pravilno deluje?
+    \item[Energijska disipacija] Kako se ob premikih spremeni poraba energije glede na originalno vezje?
+    \item[Zakasnitev] Kakšna je sprememba števila urinih ciklov, potrebnih za pridobitev pravilnih izhodov?
+\end{description}
+
+\section*{Načrt poskusov}
+
+Uporabili bomo 27-celični demultiplekser $1:2$ iz izhodiščnega članka. V simulatorju bomo rekonstruirali izvirno vezje ter preverili njegovo pravilnost in rezultate primerjali z objavljenimi meritvami.
+
+Nato bomo izbrali štiri reprezentativne celice na različnih mestih vezja: v NOT vratih, v majoritetnih vratih, na vhodnem vodilu in na izhodnem vodilu. Vsako bomo ločeno premaknili za $1$, $3$ in $5$ nm v določeni smeri, pri čemer bodo preostale celice ostale nespremenjene.
+
+Tako bomo pripravili 12 spremenjenih različic in izvirno vezje. Za vsako različico bomo izvedli simulacijo, preverili pravilnost izhodov ter izmerili izbrane metrike.
+
+Rezultate bomo ustrezno prikazali in ugotovili, katere vrste celic so najbolj občutljive na premike. Če se pri izbranih premikih napake ne pojavijo, bomo območje premikov ustrezno razširili.
+
+\section*{Orodja in razdelitev dela}
+
+\textbf{Orodja:} QCADesigner-E (zasnova, funkcijska in energijska simulacija), Python (obdelava meritev in grafi), \LaTeX{} (poročilo).
+
+\begin{itemize}
+    \item \textbf{1. član:} Rekonstrukcija izvirnega demultiplekserja, preverjanje logične pravilnosti in primerjava z referenčnim člankom.
+    \item \textbf{2. član:} Priprava različic vezja s premaknjenimi celicami in izvedba simulacij.
+    \item \textbf{3. član:} Analiza polarizacije, zakasnitev in energijske disipacije, statistična obdelava rezultatov ter priprava grafov.
+\end{itemize}
+
+\vspace{3pt}
+{\footnotesize\textbf{Izhodiščni članek:} Paramjeet in sod., \emph{Low Complexity QCA-Based 1:2\textsuperscript{n} Demux Architecture With Effective Modular Design}, Journal of Engineering, 2026. DOI: \href{https://doi.org/10.1155/je/9541510}{10.1155/je/9541510}.}
+\end{document}
