@@ -1,0 +1,7 @@
+ime := "predlog_qca_demultiplekser"
+
+run:
+    lualatex {{ime}}.tex
+
+clean:
+    rm -f {{ime}}.aux {{ime}}.fdb_latexmk {{ime}}.fls {{ime}}.log {{ime}}.out {{ime}}.pdf
