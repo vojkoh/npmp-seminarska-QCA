@@ -1,0 +1,6 @@
+executable := "/home/mpoz/Programs/QCADesignerE/bin/batch_sim"
+qcadfile := "/home/mpoz/Documents/Faks/Mag1Sem1/NPMP/npmp-seminarska-QCA/qca-files/demultiplexer_12.qca"
+optionsfile := "/home/mpoz/Documents/Faks/Mag1Sem1/NPMP/npmp-seminarska-QCA/qca-files/bistable-options.txt"
+
+run:
+    {{executable}} -f {{qcadfile}} -e BISTABLE -o {{optionsfile}} -n 1 -t 10

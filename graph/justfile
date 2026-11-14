@@ -1,0 +1,38 @@
+set working-directory := ".."
+
+venv := "graph/.venv/bin/python"
+
+@run:
+    just --justfile graph/justfile --list
+
+# Create the plotting environment and install dependencies.
+graph-setup:
+    python3 -m venv graph/.venv
+    {{venv}} -m pip install -r graph/requirements.txt
+
+# Plot selected traces; optional output directory, then flags (e.g. --include-clocks).
+# To use flags with the default output directory: graph INPUT "" --include-clocks
+[positional-arguments]
+graph simulation output_dir="" *flags:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    simulation="$1"
+    output_dir="$2"
+    shift 2
+    if [[ -n "$output_dir" ]]; then
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} graph/plot_traces.py "$simulation" --output-dir "$output_dir" "$@"
+    else
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} graph/plot_traces.py "$simulation" "$@"
+    fi
+
+# Show selected traces vertically without saving; accepts --include-clocks.
+[positional-arguments]
+graph-view simulation *flags:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    simulation="$1"
+    shift
+    PYTHONDONTWRITEBYTECODE=1 {{venv}} graph/plot_traces.py "$simulation" --view "$@"
+
+graph-test:
+    PYTHONDONTWRITEBYTECODE=1 {{venv}} -m unittest discover -s graph -v

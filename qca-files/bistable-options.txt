@@ -1,0 +1,14 @@
+[BISTABLE_OPTIONS]
+number_of_samples=12800
+convergence_tolerance=0.001
+radius_of_effect=65
+epsilonR=12.9
+clock_high=9.8e-22
+clock_low=3.8e-23
+clock_shift=0.0
+clock_amplitude_factor=2.0
+layer_separation=11.5
+max_iterations_per_sample=100
+randomize_cells=TRUE
+animate_simulation=FALSE
+[#BISTABLE_OPTIONS]

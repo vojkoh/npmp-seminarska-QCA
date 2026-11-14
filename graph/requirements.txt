@@ -1,0 +1,2 @@
+-r ../analysis/requirements.txt
+matplotlib>=3.6

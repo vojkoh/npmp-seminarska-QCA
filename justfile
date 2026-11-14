@@ -9,3 +9,6 @@ analysis simulation:
     cd analysis
     just analysis-setup
     just analysis-full {{simulation}}
+
+graph g:
+    just -f graph/justfile graph-view {{g}}

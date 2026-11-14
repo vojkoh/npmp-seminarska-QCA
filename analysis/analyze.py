@@ -29,11 +29,13 @@ class Simulation:
     traces: dict
 
 
-def parse_simulation_file(path):
+def parse_simulation_file(path, *, for_plotting=False):
     """Read once; buffer numerical text until labels/counts are known.
 
     Tags outside simulation data (e.g. bus layout) are structurally checked too.
     All numeric blocks are lexically validated, including ignored clocks.
+    for_plotting retains original labels and every clock's values, omits
+    circuit-specific requirements, and permits empty data for callers to skip.
     """
     stack, records, metadata = [], [], {}
     current = None
@@ -100,7 +102,7 @@ def parse_simulation_file(path):
     try:
         samples = int(metadata['number_samples'])
         declared_traces = int(metadata['number_of_traces'])
-        if samples <= 0 or declared_traces < 0:
+        if samples < 0 or (samples == 0 and not for_plotting) or declared_traces < 0:
             raise ValueError
     except (KeyError, ValueError):
         raise AnalysisError('missing or invalid number_samples/number_of_traces') from None
@@ -108,31 +110,31 @@ def parse_simulation_file(path):
     for record in records:
         label = record['fields'].get('data_labels', '')
         # Simulator exports use CLOCK; retain canonical Clock names downstream.
-        if label in {f'CLOCK {i}' for i in range(4)}:
+        if not for_plotting and label in {f'CLOCK {i}' for i in range(4)}:
             label = 'Clock ' + label[-1]
         if not label or label in traces:
             raise AnalysisError(f'missing or duplicate trace label: {label!r}')
-        if (record['container'] == 'CLOCKS') != (label in CLOCK_LABELS):
+        if not for_plotting and (record['container'] == 'CLOCKS') != (label in CLOCK_LABELS):
             raise AnalysisError(f'{label}: misplaced or unrecognized clock label')
         fields = record['fields']
         if ('drawtrace' in fields and fields['drawtrace'] not in {'TRUE', 'FALSE'}
                 or 'trace_function' in fields and not re.fullmatch(r'[+-]?[0-9]+', fields['trace_function'])):
             raise AnalysisError(f'{label}: invalid trace metadata')
         text = ' '.join(record['text'])
-        if not record['data_seen'] or not NUMERIC_TEXT.fullmatch(text):
+        if not record['data_seen'] or (not NUMERIC_TEXT.fullmatch(text) and not (for_plotting and not text)):
             raise AnalysisError(f'{label}: missing data or invalid/non-finite numerical token')
         # Full lexical validation prevents fromstring's silent truncation behavior.
         values = np.fromstring(text, sep=' ')
-        if len(values) != samples:
+        if len(values) != samples and not (for_plotting and not len(values)):
             raise AnalysisError(f'{label}: expected {samples} samples, got {len(values)}')
         if not np.isfinite(values).all():
             raise AnalysisError(f'{label}: non-finite data')
-        traces[label] = values if label not in {'Clock 0', 'Clock 1', 'Clock 2'} else None
+        traces[label] = values if for_plotting or label not in {'Clock 0', 'Clock 1', 'Clock 2'} else None
     if (sum(r['container'] == 'TRACES' for r in records) != declared_traces
-            or sum(r['container'] == 'CLOCKS' for r in records) != 4):
+            or (not for_plotting and sum(r['container'] == 'CLOCKS' for r in records) != 4)):
         raise AnalysisError('number_of_traces does not match signal traces plus four clocks')
     missing = REQUIRED - traces.keys()
-    if missing:
+    if missing and not for_plotting:
         raise AnalysisError(f'missing required traces: {sorted(missing)}')
     return Simulation(samples, traces)
 
