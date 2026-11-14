@@ -1,0 +1,42 @@
+# Resolve recipe paths from the project root, not this justfile's directory.
+set working-directory := ".."
+
+venv := "analysis/.venv/bin/python"
+
+@run:
+    echo Specify a recipe...
+
+analysis-setup:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    python3 -m venv analysis/.venv
+    mkdir -p analysis_results
+    {{venv}} -m pip install -r analysis/requirements.txt
+
+[positional-arguments]
+analysis simulation:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    test -f "$1" || { echo "Simulation file not found: $1" >&2; exit 2; }
+    mkdir -p analysis_results
+    PYTHONDONTWRITEBYTECODE=1 {{venv}} analysis/analyze.py "$1" --csv analysis_results/measurements.csv --json analysis_results/summary.json 2>&1 | tee analysis_results/analysis.log
+
+[positional-arguments]
+analysis-full simulation:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    test -f "$1" || { echo "Simulation file not found: $1" >&2; exit 2; }
+    mkdir -p analysis_results
+    PYTHONDONTWRITEBYTECODE=1 {{venv}} analysis/analyze.py "$1" --full --verbose --csv analysis_results/full-measurements.csv --json analysis_results/full-summary.json 2>&1 | tee analysis_results/full-analysis.log
+
+analysis-test:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    mkdir -p analysis_results
+    PYTHONDONTWRITEBYTECODE=1 {{venv}} -m unittest discover -s analysis -v 2>&1 | tee analysis_results/tests.log
+
+analysis-benchmark:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    mkdir -p analysis_results
+    PYTHONDONTWRITEBYTECODE=1 {{venv}} analysis/benchmark.py 2>&1 | tee analysis_results/benchmark.log
