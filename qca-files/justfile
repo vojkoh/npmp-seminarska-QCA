@@ -1,0 +1,19 @@
+set dotenv-load
+
+executable := env('QCA_EXECUTABLE')
+qcadfile := env('QCA_FILE')
+optionsfile := env('QCA_OPTIONS_FILE')
+
+# Keep the configured circuit/current directory defaults; allow isolated runs.
+[positional-arguments]
+run circuit=qcadfile output_dir=".":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    circuit=$(realpath "$1")
+    options=$(realpath {{quote(optionsfile)}})
+    executable={{quote(executable)}}
+    if [[ "$executable" == */* ]]; then
+        executable=$(realpath "$executable")
+    fi
+    cd "$2"
+    "$executable" -f "$circuit" -e BISTABLE -o "$options" -n 1 -t 0
