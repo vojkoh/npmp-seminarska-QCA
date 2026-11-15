@@ -1,0 +1,8 @@
+set dotenv-load
+
+executable := env('QCA_EXECUTABLE')
+qcadfile := env('QCA_FILE')
+optionsfile := env('QCA_OPTIONS_FILE')
+
+run:
+    "{{executable}}" -f "{{qcadfile}}" -e BISTABLE -o "{{optionsfile}}" -n 1 -t 0

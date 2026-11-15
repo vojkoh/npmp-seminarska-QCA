@@ -1,6 +1,27 @@
+set dotenv-load
+
 # Resolve recipe paths from the project root, not this justfile's directory.
 @run:
     echo Specify a recipe...
+
+# Create local simulator configuration without overwriting existing settings.
+env-init:
+    #!/usr/bin/env sh
+    set -eu
+    if [ -e .env ]; then
+        echo '.env already exists; leaving it unchanged.'
+        exit 0
+    fi
+    set -C
+    cat > .env <<EOF
+    QCA_EXECUTABLE=""
+    QCA_FILE="$(pwd)/qca-files/demultiplexer_12.qca"
+    QCA_OPTIONS_FILE="$(pwd)/qca-files/bistable-options.txt"
+    EOF
+    echo 'Created .env; adjust QCA_EXECUTABLE for your installation.'
+
+qca-run:
+    just --justfile qca-files/justfile run
 
 [positional-arguments]
 analysis simulation:
