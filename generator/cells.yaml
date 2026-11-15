@@ -1,0 +1,92 @@
+# Verified coordinates from the previous generator, checked against the original.
+# Units: nm. +x is right; +y is DOWN in QCADesigner-E.
+# The reference image did not restrict directions; all four are enabled here.
+# Boundary touching is allowed, but every displacement is checked for overlap.
+cells:
+  W1:
+    x: 120.0
+    y: 140.0
+    group: wire
+    directions: ["+x", "-x", "+y", "-y"]
+  W2:
+    x: 120.0
+    y: 180.0
+    group: wire
+    directions: ["+x", "-x", "+y", "-y"]
+  W3:
+    x: 200.0
+    y: 60.0
+    group: wire
+    directions: ["+x", "-x", "+y", "-y"]
+  W4:
+    x: 220.0
+    y: 220.0
+    group: wire
+    directions: ["+x", "-x", "+y", "-y"]
+  N1:
+    x: 200.0
+    y: 120.0
+    group: inverter
+    directions: ["+x", "-x", "+y", "-y"]
+  M0a:
+    x: 140.0
+    y: 60.0
+    group: majority
+    gate: upper
+    role: fixed_input
+    directions: ["+x", "-x", "+y", "-y"]
+  M0b:
+    x: 180.0
+    y: 60.0
+    group: majority
+    gate: upper
+    directions: ["+x", "-x", "+y", "-y"]
+  M0c:
+    x: 160.0
+    y: 80.0
+    group: majority
+    gate: upper
+    directions: ["+x", "-x", "+y", "-y"]
+  M0d:
+    x: 140.0
+    y: 100.0
+    group: majority
+    gate: upper
+    directions: ["+x", "-x", "+y", "-y"]
+  M0e:
+    x: 180.0
+    y: 100.0
+    group: majority
+    gate: upper
+    directions: ["+x", "-x", "+y", "-y"]
+  M1a:
+    x: 160.0
+    y: 180.0
+    group: majority
+    gate: lower
+    directions: ["+x", "-x", "+y", "-y"]
+  M1b:
+    x: 200.0
+    y: 180.0
+    group: majority
+    gate: lower
+    directions: ["+x", "-x", "+y", "-y"]
+  M1c:
+    x: 180.0
+    y: 200.0
+    group: majority
+    gate: lower
+    directions: ["+x", "-x", "+y", "-y"]
+  M1d:
+    x: 160.0
+    y: 220.0
+    group: majority
+    gate: lower
+    role: fixed_input
+    directions: ["+x", "-x", "+y", "-y"]
+  M1e:
+    x: 200.0
+    y: 220.0
+    group: majority
+    gate: lower
+    directions: ["+x", "-x", "+y", "-y"]
