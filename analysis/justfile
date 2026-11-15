@@ -22,12 +22,13 @@ analysis simulation:
     PYTHONDONTWRITEBYTECODE=1 {{venv}} analysis/analyze.py "$1" --csv analysis_results/measurements.csv --json analysis_results/summary.json 2>&1 | tee analysis_results/analysis.log
 
 [positional-arguments]
-analysis-full simulation:
+analysis-full simulation output_dir="analysis_results":
     #!/usr/bin/env bash
     set -euo pipefail
     test -f "$1" || { echo "Simulation file not found: $1" >&2; exit 2; }
-    mkdir -p analysis_results
-    PYTHONDONTWRITEBYTECODE=1 {{venv}} analysis/analyze.py "$1" --full --verbose --csv analysis_results/full-measurements.csv --json analysis_results/full-summary.json 2>&1 | tee analysis_results/full-analysis.log
+    output_dir="$2"
+    mkdir -p "$output_dir"
+    PYTHONDONTWRITEBYTECODE=1 {{venv}} analysis/analyze.py "$1" --full --verbose --csv "$output_dir/full-measurements.csv" --json "$output_dir/full-summary.json" 2>&1 | tee "$output_dir/full-analysis.log"
 
 analysis-test:
     #!/usr/bin/env bash

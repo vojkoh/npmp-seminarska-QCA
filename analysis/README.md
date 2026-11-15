@@ -25,9 +25,9 @@ For custom CLI options, use `analysis/.venv/bin/python analysis/analyze.py`
 followed by the simulation path and options.
 
 Recipes display logs in the terminal. Generated exports and logs live in `analysis_results/` at repository
-root (ignored by Git). Delete that directory to clear results; `just clean`
-also removes it and the virtual environment, along with other ignored files;
-rerun setup afterward. The input simulation stays
+root (ignored by Git). Delete that directory to clear results; the root `just clean`
+also removes conventional generated outputs and caches, but preserves virtual
+environments, installed dependencies, configuration, and tracked fixtures. The input simulation stays
 outside this directory. Explicit CLI export paths remain user-configurable.
 
 Options include `--threshold` (0.5), `--clock-low` (3.8e-23),
