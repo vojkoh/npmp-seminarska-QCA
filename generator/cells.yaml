@@ -7,27 +7,27 @@ cells:
     x: 120.0
     y: 140.0
     group: wire
-    directions: ["+x", "-x", "+y", "-y"]
+    directions: ["+y", "-y"]
   W2:
     x: 120.0
     y: 180.0
     group: wire
-    directions: ["+x", "-x", "+y", "-y"]
+    directions: ["+y", "-y"]
   W3:
     x: 200.0
     y: 60.0
     group: wire
-    directions: ["+x", "-x", "+y", "-y"]
+    directions: ["+y", "-y"]
   W4:
     x: 220.0
     y: 220.0
     group: wire
-    directions: ["+x", "-x", "+y", "-y"]
+    directions: ["+y", "-y"]
   N1:
     x: 200.0
     y: 120.0
     group: inverter
-    directions: ["+x", "-x", "+y", "-y"]
+    directions: ["+x", "-x", "-y"]
   M0a:
     x: 140.0
     y: 60.0
@@ -40,7 +40,7 @@ cells:
     y: 60.0
     group: majority
     gate: upper
-    directions: ["+x", "-x", "+y", "-y"]
+    directions: ["-x", "+y", "-y"]
   M0c:
     x: 160.0
     y: 80.0
@@ -52,7 +52,7 @@ cells:
     y: 100.0
     group: majority
     gate: upper
-    directions: ["+x", "-x", "+y", "-y"]
+    directions: ["+x", "-x", "-y"]
   M0e:
     x: 180.0
     y: 100.0
@@ -64,7 +64,7 @@ cells:
     y: 180.0
     group: majority
     gate: lower
-    directions: ["+x", "-x", "+y", "-y"]
+    directions: ["+x", "+y", "-y"]
   M1b:
     x: 200.0
     y: 180.0
@@ -76,7 +76,7 @@ cells:
     y: 200.0
     group: majority
     gate: lower
-    directions: ["+x", "-x", "+y", "-y"]
+    directions: ["+x", "-x", "+y"]
   M1d:
     x: 160.0
     y: 220.0
@@ -89,4 +89,4 @@ cells:
     y: 220.0
     group: majority
     gate: lower
-    directions: ["+x", "-x", "+y", "-y"]
+    directions: ["-x", "+y", "-y"]
