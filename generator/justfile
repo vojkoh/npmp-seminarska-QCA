@@ -1,0 +1,21 @@
+set working-directory := "."
+set positional-arguments
+export PYTHONDONTWRITEBYTECODE := "1"
+
+venv := ".venv/bin/python"
+
+@run:
+    just --justfile "{{justfile()}}" --list
+
+# Create this subproject's environment; PyYAML is the only dependency.
+setup:
+    python3 -m venv .venv
+    {{venv}} -m pip install 'PyYAML>=6.0'
+
+# Generate single-cell cases; all flags and output paths are passed through.
+generate *args:
+    {{venv}} generate.py "$@"
+
+# Run the focused standard-library tests.
+test:
+    {{venv}} -m unittest -v test_generate
