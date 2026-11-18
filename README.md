@@ -66,6 +66,15 @@ of the existing [graph export recipe](graph/justfile). To enable it, first run
 It uses the same saved simulation as the analyzer and exports into that case's
 `graphs/` directory; normal workflow execution neither sets up nor invokes graphs.
 
+### Displacement overview
+
+`just run` does not plot. Afterwards, `just viz [RUN_DIR]` (default: newest run)
+plots every displaced cell's results as PASS/FAIL dots on a dx/dy grid and saves
+`<run dir>/displacement-overview.png`; `just viz-view [RUN_DIR]` opens it in a
+window without saving. `just layout` saves a labelled diagram of which cell is
+W1, N1, M0a, ... (`analysis_results/cell-layout.png`). Dependencies are
+installed by `just workflow-setup`. See the [visualization documentation](visualizations/README.md).
+
 ### Cleanup
 
 Run `just clean` from the repository root to remove `analysis_results/` (including

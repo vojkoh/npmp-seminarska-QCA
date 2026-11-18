@@ -63,6 +63,23 @@ urina shema & [USE] \\
 \subsection{Zasnova poskusov}
 \label{g01:sec:poskusi}
 
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{cell-layout}
+\caption{
+    Shema demultiplekserja. 
+    Celice so označene z imeni, ki so uporabljene za skicevanje nanje v nadaljevanju.
+}
+\label{g01:fig:shema}
+\end{figure}
+
+NAŠA HIPOTEZA!!!
+Predpostavljamo, da občutljivost vezja na premike celic ni enakomerna. Premiki celic v bližini logičnih vrat (NOT in majoritetnih vrat) bodo povzročili večje spremembe izhodne polarizacije in hitreje privedli do nepravilnega delovanja kot primerljivi premiki celic v ravnih povezovalnih vodilih.
+
+Pričakujemo tudi, da bodo večji premiki povzročili izrazitejše odstopanje od rezultatov izvirne implementacije.
+%%%%%%%%%%%%%%%%%%%%%%%
+
 [Opišite, katere poskuse ste izvedli in zakaj. Enačbe pišite v okolju \texttt{equation} in se nanje sklicujte, npr.\ polarizacija celice je določena z enačbo~\eqref{g01:eq:polarizacija}.]
 
 \begin{equation}
@@ -100,41 +117,146 @@ job = Sampler(mode=backend).run([isa], shots=1000)
 print(job.job_id(), job.result()[0].data.meas.get_counts())
 \end{lstlisting}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Metrike}
 \label{g01:sec:metrike}
 
-[Naštejte metrike, s katerimi odgovorite na raziskovalno vprašanje, in kako jih izračunate. Npr. število celic, površina, zakasnitev v urinih ciklih in disipacija energije za QCA. Verjetnost uspeha, globina vezja in število dvokubitnih vrat za QC.]
+Pri poskusu smo merili sledeče metrike, s katerimi smo ocenjevali robustnost demultiplekserja pri zamiku posameznih celic. 
+\begin{enumerate}
+    \item \textbf{Pravilnost izhoda} -- splošen pregled: pri katerih premikih demultiplekser pri istih vhodnih podatkih ohrani isti izhod. 
+    \item \textbf{Toleranca na premik} -- koliko se lahko celica na določenem mestu premakne, da demultiplekser še vedno ohrani pravilen izhod.
+    \item \textbf{Zanesljivost delovanja pri določenem premiku} -- kako zanesljivo bo v povprečju demultiplekser deloval, če eno celico zamaknemo za določeno razdaljo.
+    \item \textbf{Velikost in stabilnost polarizacije} -- kakšno polarizacijo imajo izhodne celice v ustreznih fazah urinega cikla.
+\end{enumerate}
 
+Vse metrike bomo primerjali glede na izhode pri osnovnem modelu demultiplekserja s slike~\ref{g01:fig:shema}.
 
 \section{Rezultati}
 \label{g01:sec:rezultati}
 
-[Rezultate predstavite s slikami, grafi in tabelami ter jih v besedilu razložite. Vsako sliko in tabelo omenite v besedilu, npr.\ slika~\ref{g01:fig:majoritetna} in tabela~\ref{g01:tab:primerjava}.]
+\subsection{Pravilnost izhoda}
+\label{g01:sec:pravilnost-izhoda}
+
+Kot pričakovano, premiki celic za nekaj nanometrov v različnih smereh vplivajo na pravilno delovanje QCA demultiplekserja.
+Pri različnih delih vezja imajo premiki različen vpliv. 
+Tudi smer premika vpliva na pravilnost delovanja vezja. 
+Iz Grafa~\ref{g01:fig:pravilnost-izhoda} lahko razberemo nekaj trendov: 
+
+\begin{itemize}
+    \item Najbolj občutljivo vodilo je vodilo W2, ko povezuje vhod D z demultiplekserjem.
+    \item Zanimivo je, da sta si celici W1 in W2 različni v robustnosti, saj opravljata podobno funkcijo.
+    Razlika se zelo verjetno pojavi zaradi interference med celicama, saj se lahko takšen vpliv prenaša samo v smeri naraščajoče ure, ne pa tudi v drugo smer.
+    \item Negator je odporen na vse premike do \SI{5}{\nano\metre}.
+    \item Majoritetna vrata 0 so veliko bolj občutljiva na premike kot majoritetna vrata 1.
+    Takšno obnašanje bi lahko razložili s tem, da majoritetna vrata 0 prejmejo na vhodih veliko šibkejši signal, ki je prepotoval veliko daljšo pot, zato premiki celic veliko bolj vplivajo na izhod.
+    \item V splošnem lahko opazimo, da na pravilnost delovanja najbolj vplivajo fiksno polarizirane celice (M0a in M1d) ter celice v sredini majoritetnih vrat (M0c in M1c).
+    \item Šibkejši signal na M0 bi lahko tudi razložil razlike med celicama W3 in W4, saj celica W3 prejme šibkejši signal in zato na izhod Y0 premiki bolj vplivajo.
+\end{itemize}
+
 
 \begin{figure}[htbp]
-\centering
-\includegraphics[width=0.4\textwidth]{majoritetna_vrata}
-\caption{Primer slike: majoritetna vrata z vhodi $A$, $B$, $C$ in izhodom $M$. [Slike shranjujte v poddirektoriju \texttt{img} v formatu PDF ali PNG.]}
-\label{g01:fig:majoritetna}
+    \centering
+    \includegraphics[width=1\textwidth]{displacement-overview}
+    \caption{
+        Pravilnost izhodov pri premikanju posmeznih celic demultiplekserja. 
+        Vsaka vrstica prikazuje en del demultiplekserja (vodilo, negator, majoritetna vrata 0 in 1, od zgoraj navzdol). 
+        Modre pike prikazujejo poskuse z uspešnim izhodom, rdeči križci pa tiste z neuspešnim. 
+    }
+    \label{g01:fig:pravilnost-izhoda}
 \end{figure}
+    
+Imena celic, na katera se sklicujemo, so predstavlena na Sliki~\ref{g01:fig:shema}.
+
+
+\subsection{Toleranca na premik}
+
+Toleranco posamezne celice na premik smo ocenili kot povprečje razdalj, pri katerih celica v posamezni dovoljeni smeri prvič povzroči napačen izhod (Tabela~\ref{g01:tab:toleranca}).
+Smeri, v katerih celica do največjega preizkušenega premika (\SI{5}{\nano\metre}) ni povzročila napake, smo v povprečje šteli s \SI{5}{\nano\metre}; v tem primeru je povprečje le spodnja meja prave tolerance in je označeno z $\geq$.
 
 \begin{table}[htbp]
-\caption{Primer: primerjava lastne izvedbe z objavljenimi. [Vpišite svoje vrednosti in navedite vire.]}
-\label{g01:tab:primerjava}
 \centering
-\begin{tabular}{lrrrr}
+\small
+\caption{
+    Razdalja premika (v \si{\nano\metre}), pri kateri celica v posamezni smeri prvič povzroči napačen izhod, in njihovo povprečje.
+    Oznaka $>5$ pomeni, da celica v tej smeri do \SI{5}{\nano\metre} ni povzročila napake, \enquote{--} pa, da premik v tej smeri ni bil dovoljen.
+}
+\label{g01:tab:toleranca}
+\begin{tabular}{lccccc}
 \toprule
-Izvedba & Celice & Površina & Zakasnitev & Energija \\
- & & [\si{\micro\metre\squared}] & [cikli] & [\si{\milli\electronvolt}] \\
+Celica & $+x$ (desno) & $-x$ (levo) & $+y$ (dol) & $-y$ (gor) & Povprečje \\
 \midrule
-naša & [ ] & [ ] & [ ] & [ ] \\
-\cite{campos2016use} & [ ] & [ ] & [ ] & [ ] \\
+W1  & --    & --    & $>5$  & $>5$  & $\geq$\,5,00 \\
+W2  & --    & --    & 5     & 2     & 3,50 \\
+W3  & --    & --    & 4     & 4     & 4,00 \\
+W4  & --    & --    & $>5$  & $>5$  & $\geq$\,5,00 \\
+\midrule
+N1  & $>5$  & $>5$  & --    & $>5$  & $\geq$\,5,00 \\
+\midrule
+M0a & 1     & 3     & 1     & 4     & 2,25 \\
+M0b & --    & $>5$  & $>5$  & 1,5   & $\geq$\,3,83 \\
+M0c & $>5$  & 1     & 1,5   & 1     & $\geq$\,2,13 \\
+M0d & 3     & 1,5   & --    & $>5$  & $\geq$\,3,17 \\
+M0e & 3     & $>5$  & 3     & $>5$  & $\geq$\,4,00 \\
+\midrule
+M1a & $>5$  & --    & $>5$  & 5     & $\geq$\,5,00 \\
+M1b & 5     & $>5$  & $>5$  & 2     & $\geq$\,4,25 \\
+M1c & 4     & 5     & 3     & --    & 4,00 \\
+M1d & 4     & $>5$  & $>5$  & $>5$  & $\geq$\,4,75 \\
+M1e & --    & $>5$  & 5     & $>5$  & $\geq$\,5,00 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
+\subsection{Zanesljivost delovanja pri določenem premiku}
+
+Kumulativni delež neuspešnih scenarijev po velikosti premika je prikazan na Sliki~\ref{g01:fig:kumulativno}. 
+Trend naraščanja nepravilnih izhodov demultiplekserja s povečavanjem odmika od njihove načrtovane lege je očiten. 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.75\textwidth]{cumulative-failures}
+\caption{
+    Kumulativni delež neuspešnih scenarijev glede na absolutno velikost premika, za vse celice in vse smeri skupaj.
+    Pri vsakem odmiku je prikazan delež neuspešnih med vsemi poskusi s premikom, manjšim ali enakim temu odmiku; oznaka ob točki podaja še razmerje \emph{neuspešni/vsi}.
+}
+\label{g01:fig:kumulativno}
+\end{figure}
+
+
+\subsection{Velikost in stabilnost polarizacije}
+
+Pri vsakem poskusu smo merili polarizacijo na izhodnih celicah, da bi ugotovili, kako močno določeni premiki vplivjo nanjo. 
+Meritve izhodne polarizacije so prikazane za vse možne premike za Y0 na grafu~\ref{g01:fig:y0} ter za Y1 na grafu~\ref{g01:fig:y1}.
+Iz grafov je jasno razvidno, da imajo na polarizacijo opazen vpliv samo premiki celic W3 in W4.
+To sta celici, ki sta neposredna soseda izhodnih celic.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{polarization-Y0}
+\caption{
+    Polarizacija izhoda Y0. Polarizacija je prikazana za vse možne premike. 
+    Absolutna vrednost polarizacije je prikazana s pomočjo barvne lestvice.
+}
+\label{g01:fig:y0}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{polarization-Y1}
+\caption{
+    Polarizacija izhoda Y1. Polarizacija je prikazana za vse možne premike. 
+    Absolutna vrednost polarizacije je prikazana s pomočjo barvne lestvice.
+}
+\label{g01:fig:y1}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \section{Razprava}
+
 \label{g01:sec:razprava}
 
 [Odgovorite na raziskovalno vprašanje in rezultat primerjajte s pričakovanim. Opišite omejitve: kaj vaši rezultati pokažejo in česa ne.]
@@ -144,6 +266,8 @@ naša & [ ] & [ ] & [ ] & [ ] \\
 
 [Opišite vsaj en poskus, ki ni uspel, kaj ste opazili in zakaj po vašem mnenju ni deloval.]
 
+Pri M0d demux ne deluje pri px=4, pri px=5 pa. To je neka anomalija, ki je ne znamo razložiti. 
++ Pričakovali smo, da bo polarizacija različna za različne tipe premikov, a je skoraj vedno enaka (torej popolnoma pravilna ali popolnoma napačna).
 
 \section{Zaključek}
 \label{g01:sec:zakljucek}

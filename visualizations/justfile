@@ -1,0 +1,67 @@
+set working-directory := ".."
+
+venv := "visualizations/.venv/bin/python"
+
+@run:
+    just --justfile visualizations/justfile --list
+
+# Create the visualization environment and install dependencies.
+viz-setup:
+    python3 -m venv visualizations/.venv
+    {{venv}} -m pip install -r visualizations/requirements.txt
+
+# Save the PASS/FAIL displacement overview; optional PNG path.
+[positional-arguments]
+viz run_dir output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ -n "$2" ]]; then
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_displacements.py "$1" --output "$2"
+    else
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_displacements.py "$1"
+    fi
+
+# Show the overview in one interactive window without saving.
+[positional-arguments]
+viz-view run_dir:
+    PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_displacements.py "$1" --view
+
+# Save the labelled cell-layout diagram; optional PNG path (default analysis_results/cell-layout.png).
+[positional-arguments]
+layout output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ -n "${1:-}" ]]; then
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_layout.py --output "$1"
+    else
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_layout.py
+    fi
+
+# Show the cell-layout diagram in one interactive window without saving.
+layout-view:
+    PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_layout.py --view
+
+# Save the cumulative failing-scenario plot; optional PNG path (default <run dir>/cumulative-failures.png).
+[positional-arguments]
+cumulative run_dir output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ -n "${2:-}" ]]; then
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_cumulative.py "$1" --output "$2"
+    else
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_cumulative.py "$1"
+    fi
+
+# Save polarization-Y0.png and polarization-Y1.png; optional output directory (default: the run directory).
+[positional-arguments]
+polarization run_dir output_dir="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ -n "${2:-}" ]]; then
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_polarization.py "$1" --output-dir "$2"
+    else
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_polarization.py "$1"
+    fi
+
+viz-test:
+    PYTHONDONTWRITEBYTECODE=1 {{venv}} -m unittest discover -s visualizations -v
