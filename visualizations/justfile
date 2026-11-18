@@ -26,5 +26,20 @@ viz run_dir output="":
 viz-view run_dir:
     PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_displacements.py "$1" --view
 
+# Save the labelled cell-layout diagram; optional PNG path (default analysis_results/cell-layout.png).
+[positional-arguments]
+layout output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ -n "${1:-}" ]]; then
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_layout.py --output "$1"
+    else
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_layout.py
+    fi
+
+# Show the cell-layout diagram in one interactive window without saving.
+layout-view:
+    PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_layout.py --view
+
 viz-test:
     PYTHONDONTWRITEBYTECODE=1 {{venv}} -m unittest discover -s visualizations -v

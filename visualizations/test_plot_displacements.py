@@ -60,7 +60,7 @@ class DisplacementTests(unittest.TestCase):
             visible = [a for a in figure.axes if a.get_visible()]
             self.assertEqual(len(visible), 4)
             w1 = visible[0]
-            self.assertTrue(w1.get_title().startswith('W1  (1/2 pass)'))
+            self.assertTrue(w1.get_title().startswith('W1  (1/2 pravilnih)'))
             colors = [tuple(c.get_facecolor()[0][:3]) for c in w1.collections]
             self.assertEqual(colors, [matplotlib_rgb(p.PASS_COLOR), matplotlib_rgb(p.FAIL_COLOR)])
             for axis in visible:

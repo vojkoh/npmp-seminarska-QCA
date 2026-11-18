@@ -32,8 +32,8 @@ from matplotlib.lines import Line2D
 
 PASS_COLOR = '#1f6fd1'
 FAIL_COLOR = '#d0312d'
-ROW_TITLES = {'wire': 'Wire cells', 'inverter': 'Negator (inverter) cell',
-              'M0': 'Upper majority gate', 'M1': 'Lower majority gate'}
+ROW_TITLES = {'wire': 'Celice vodila', 'inverter': 'Celica negatorja',
+              'M0': 'Zgornja majoritetna vrata', 'M1': 'Spodnja majoritetna vrata'}
 
 
 class VisualizationError(ValueError):
@@ -105,21 +105,21 @@ def build_figure(cells, title=None):
                     axis.scatter(xs, ys, c=color, marker=marker, s=46,
                                  edgecolors='white', linewidths=0.8, zorder=2)
             passes = sum(ok for *_, ok in runs)
-            axis.set_title(f'{cell_id}  ({passes}/{len(runs)} pass)', fontsize=10)
+            axis.set_title(f'{cell_id}  ({passes}/{len(runs)} pravilnih)', fontsize=10)
             axis.set_xlim(-limit, limit)
             axis.set_ylim(limit, -limit)  # +y is down in QCADesigner-E
             axis.set_aspect('equal')
             axis.grid(True, color='0.92', linewidth=0.5)
             axis.tick_params(labelsize=8, labelbottom=True, labelleft=True)
             if column == 0:
-                axis.set_ylabel(f'{ROW_TITLES.get(key, key)}\ndy [nm] (+ down)', fontsize=9)
+                axis.set_ylabel(f'{ROW_TITLES.get(key, key)}\ndy [nm] (+ navzdol)', fontsize=9)
             axis.set_xlabel('dx [nm]', fontsize=8)
     legend = [Line2D([], [], marker='o', color='w', markerfacecolor=PASS_COLOR,
-                     markersize=8, label='PASS'),
+                     markersize=8, label='pravilno (PASS)'),
               Line2D([], [], marker='X', color='w', markerfacecolor=FAIL_COLOR,
-                     markersize=8, label='FAIL'),
+                     markersize=8, label='napačno (FAIL)'),
               Line2D([], [], marker='+', color='0.2', linestyle='none',
-                     markersize=9, label='original position')]
+                     markersize=9, label='izvirni položaj')]
     figure.legend(handles=legend, loc='outside upper right', ncol=3, frameon=False)
     if title:
         figure.suptitle(title, parse_math=False)
@@ -138,7 +138,7 @@ def main(argv=None):
                       help='PNG path (default: <run dir>/displacement-overview.png)')
     args = parser.parse_args(argv)
     output = args.output or args.run_dir / 'displacement-overview.png'
-    title = f'Single-cell displacement results: {args.run_dir.name}'
+    title = f'Rezultati premikov posameznih celic: {args.run_dir.name}'
     try:
         cells = load_runs(args.run_dir)
         if args.view:

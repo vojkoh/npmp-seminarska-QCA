@@ -63,6 +63,17 @@ urina shema & [USE] \\
 \subsection{Zasnova poskusov}
 \label{g01:sec:poskusi}
 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{cell-layout}
+\caption{
+    Shema demultiplekserja. 
+    Celice so označene z imeni, ki so uporabljene za skicevanje nanje v nadaljevanju.
+}
+\label{g01:fig:shema}
+\end{figure}
+
 [Opišite, katere poskuse ste izvedli in zakaj. Enačbe pišite v okolju \texttt{equation} in se nanje sklicujte, npr.\ polarizacija celice je določena z enačbo~\eqref{g01:eq:polarizacija}.]
 
 \begin{equation}
@@ -115,31 +126,64 @@ Vse metrike bomo primerjali glede na izhode pri osnovnem modelu demultiplekserja
 \section{Rezultati}
 \label{g01:sec:rezultati}
 
-[Rezultate predstavite s slikami, grafi in tabelami ter jih v besedilu razložite. Vsako sliko in tabelo omenite v besedilu, npr.\ slika~\ref{g01:fig:majoritetna} in tabela~\ref{g01:tab:primerjava}.]
+[Rezultate predstavite s slikami, grafi in tabelami ter jih v besedilu razložite. Vsako sliko in tabelo omenite v besedilu, npr.\ slika~\ref{g01:fig:majoritetna} in tabela~\ref{g01:tab:napake-po-premiku}.]
 
 \subsection{Pravilnost izhoda}
 \label{g01:sec:pravilnost-izhoda}
 
+Kot pričakovano, premiki celic za nekaj nanometrov v različnih smereh vplivajo na pravilno delovanje QCA demultiplekserja.
+Pri različnih delih vezja imajo premiki različen vpliv. 
+Tudi smer premika vpliva na pravilnost delovanja vezja. 
+Iz Grafa~\ref{g01:fig:pravilnost-izhoda} lahko razberemo nekaj trendov: 
+\begin{itemize}
+    \item Najbolj občutljivo vodilo je vodilo W2, ko povezuje vhod D z demultiplekserjem.
+    \item Zanimivo je, da sta si celici W1 in W2 različni v robustnosti, saj opravljata podobno funkcijo.
+    Razlika se zelo verjetno pojavi zaradi interference med celicama, saj se lahko takšen vpliv prenaša samo v smeri naraščajoče ure, ne pa tudi v drugo smer.
+    \item Negator je odporen na vse premike do \qty{5}{\nano\meter}.
+    \item Majoritetna vrata 0 so veliko bolj občutljiva na premike kot majoritetna vrata 1.
+    Takšno obnašanje bi lahko razložili s tem, da majoritetna vrata 0 prejmejo na vhodih veliko šibkejši signal, ki je prepotoval veliko daljšo pot, zato premiki celic veliko bolj vplivajo na izhod.
+    \item V splošnem lahko opazimo, da na pravilnost delovanja najbolj vplivajo fiksno polarizirane celice (M0a in M1d) ter celice v sredini majoritetnih vrat (M0c in M1c).
+    \item Šibkejši signal na M0 bi lahko tudi razložil razlike med celicama W3 in W4, saj celica W3 prejme šibkejši signal in zato na izhod Y0 premiki bolj vplivajo.
+\end{itemize}
 
+Imena celic, na katera se sklicujemo, so predstavlena na Sliki~\ref{g01:fig:shema}.
+Število neuspešnih poskusov po velikosti premika je zbrano v Tabeli~\ref{g01:tab:napake-po-premiku}.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.4\textwidth]{majoritetna_vrata}
-\caption{Primer slike: majoritetna vrata z vhodi $A$, $B$, $C$ in izhodom $M$. [Slike shranjujte v poddirektoriju \texttt{img} v formatu PDF ali PNG.]}
-\label{g01:fig:majoritetna}
+\includegraphics[width=0.9\textwidth]{displacement-overview}
+\caption{
+    Pravilnost izhodov pri premikanju posmeznih celic demultiplekserja. 
+    Vsaka vrstica prikazuje en del demultiplekserja (vodilo, negator, majoritetna vrata 0 in 1, od zgoraj navzdol). 
+    Modre pike prikazujejo poskuse z uspešnim izhodom, rdeči križci pa tiste z neuspešnim. 
+}
+\label{g01:fig:pravilnost-izhoda}
 \end{figure}
 
+
+
 \begin{table}[htbp]
-\caption{Primer: primerjava lastne izvedbe z objavljenimi. [Vpišite svoje vrednosti in navedite vire.]}
-\label{g01:tab:primerjava}
+\caption{
+    Število neuspešnih poskusov glede na absolutno velikost premika (v katerikoli dovoljeni smeri), ločeno po delih vezja.
+    Vsak vnos je oblike \emph{neuspešni/vsi} poskusi pri tej velikosti premika.
+    Premiki, pri katerih bi se celica prekrivala s sosednjo, niso bili simulirani (M1b navzgor za 3, 4 in \qty{5}{\nano\meter}).
+}
+\label{g01:tab:napake-po-premiku}
 \centering
-\begin{tabular}{lrrrr}
+\small
+\begin{tabular}{lrrrrrrrr}
 \toprule
-Izvedba & Celice & Površina & Zakasnitev & Energija \\
- & & [\si{\micro\metre\squared}] & [cikli] & [\si{\milli\electronvolt}] \\
+ & \multicolumn{7}{c}{Velikost premika [\si{\nano\meter}]} & \\
+\cmidrule(lr){2-8}
+Del vezja & 0,5 & 1 & 1,5 & 2 & 3 & 4 & 5 & Skupaj \\
 \midrule
-naša & [ ] & [ ] & [ ] & [ ] \\
-\cite{campos2016use} & [ ] & [ ] & [ ] & [ ] \\
+Vodilo (W1--W4)              & 0/8  & 0/8  & 0/8  & 1/8  & 1/8   & 3/8   & 4/8   & 9/56 \\
+Negator (N1)                 & 0/3  & 0/3  & 0/3  & 0/3  & 0/3   & 0/3   & 0/3   & 0/21 \\
+Majoritetna vrata 0 (M0a--e) & 0/18 & 4/18 & 7/18 & 7/18 & 11/18 & 12/18 & 11/18 & 52/126 \\
+Majoritetna vrata 1 (M1a--e) & 0/17 & 0/17 & 0/17 & 1/17 & 1/16  & 3/16  & 7/16  & 12/116 \\
+\midrule
+Vse celice                   & 0/46 & 4/46 & 7/46 & 9/46 & 13/45 & 18/45 & 22/45 & 73/319 \\
+Celice z vsaj eno napako (od 15) & 0 & 2 & 4 & 6 & 7 & 9 & 12 & \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -155,6 +199,7 @@ naša & [ ] & [ ] & [ ] & [ ] \\
 
 [Opišite vsaj en poskus, ki ni uspel, kaj ste opazili in zakaj po vašem mnenju ni deloval.]
 
+Pri M0d demux ne deluje pri px=4, pri px=5 pa. To je neka anomalija, ki je ne znamo razložiti. 
 
 \section{Zaključek}
 \label{g01:sec:zakljucek}
