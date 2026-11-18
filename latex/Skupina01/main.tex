@@ -135,11 +135,12 @@ Kot pričakovano, premiki celic za nekaj nanometrov v različnih smereh vplivajo
 Pri različnih delih vezja imajo premiki različen vpliv. 
 Tudi smer premika vpliva na pravilnost delovanja vezja. 
 Iz Grafa~\ref{g01:fig:pravilnost-izhoda} lahko razberemo nekaj trendov: 
+
 \begin{itemize}
     \item Najbolj občutljivo vodilo je vodilo W2, ko povezuje vhod D z demultiplekserjem.
     \item Zanimivo je, da sta si celici W1 in W2 različni v robustnosti, saj opravljata podobno funkcijo.
     Razlika se zelo verjetno pojavi zaradi interference med celicama, saj se lahko takšen vpliv prenaša samo v smeri naraščajoče ure, ne pa tudi v drugo smer.
-    \item Negator je odporen na vse premike do \qty{5}{\nano\meter}.
+    \item Negator je odporen na vse premike do \SI{5}{\nano\metre}.
     \item Majoritetna vrata 0 so veliko bolj občutljiva na premike kot majoritetna vrata 1.
     Takšno obnašanje bi lahko razložili s tem, da majoritetna vrata 0 prejmejo na vhodih veliko šibkejši signal, ki je prepotoval veliko daljšo pot, zato premiki celic veliko bolj vplivajo na izhod.
     \item V splošnem lahko opazimo, da na pravilnost delovanja najbolj vplivajo fiksno polarizirane celice (M0a in M1d) ter celice v sredini majoritetnih vrat (M0c in M1c).
@@ -163,17 +164,17 @@ Imena celic, na katera se sklicujemo, so predstavlena na Sliki~\ref{g01:fig:shem
 
 
 \begin{table}[htbp]
+\centering
+\small
 \caption{
     Število neuspešnih poskusov glede na absolutno velikost premika (v katerikoli dovoljeni smeri), ločeno po delih vezja.
     Vsak vnos je oblike \emph{neuspešni/vsi} poskusi pri tej velikosti premika.
-    Premiki, pri katerih bi se celica prekrivala s sosednjo, niso bili simulirani (M1b navzgor za 3, 4 in \qty{5}{\nano\meter}).
+    Premiki, pri katerih bi se celica prekrivala s sosednjo, niso bili simulirani (M1b navzgor za 3, 4 in \SI{5}{\nano\metre}).
+    \label{g01:tab:napake-po-premiku}
 }
-\label{g01:tab:napake-po-premiku}
-\centering
-\small
 \begin{tabular}{lrrrrrrrr}
 \toprule
- & \multicolumn{7}{c}{Velikost premika [\si{\nano\meter}]} & \\
+ & \multicolumn{7}{c}{Velikost premika [\si{\nano\metre}]} & \\
 \cmidrule(lr){2-8}
 Del vezja & 0,5 & 1 & 1,5 & 2 & 3 & 4 & 5 & Skupaj \\
 \midrule
@@ -190,6 +191,7 @@ Celice z vsaj eno napako (od 15) & 0 & 2 & 4 & 6 & 7 & 9 & 12 & \\
 
 
 \section{Razprava}
+
 \label{g01:sec:razprava}
 
 [Odgovorite na raziskovalno vprašanje in rezultat primerjajte s pričakovanim. Opišite omejitve: kaj vaši rezultati pokažejo in česa ne.]

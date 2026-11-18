@@ -1,6 +1,9 @@
 analysis_results/
 .env
 
+### Project-specific LaTeX output ###
+latex/editor.pdf
+
 ### LATEX .gitignore ###
 
 ## Core latex/pdflatex auxiliary files:
