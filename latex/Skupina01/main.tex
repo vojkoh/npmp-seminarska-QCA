@@ -103,13 +103,24 @@ print(job.job_id(), job.result()[0].data.meas.get_counts())
 \subsection{Metrike}
 \label{g01:sec:metrike}
 
-[Naštejte metrike, s katerimi odgovorite na raziskovalno vprašanje, in kako jih izračunate. Npr. število celic, površina, zakasnitev v urinih ciklih in disipacija energije za QCA. Verjetnost uspeha, globina vezja in število dvokubitnih vrat za QC.]
+Pri poskusu smo merili sledeče metrike, s katerimi smo ocenjevali robustnost demultiplekserja pri zamiku posameznih celic. 
+\begin{enumerate}
+    \item \textbf{pravilnost izhoda} -- splošen pregled: pri katerih premiki demultiplekser pri istih vhodnih podatkih ohrani isti izhod. 
+    \item \textbf{velikost in stabilnost polarizacije} -- kakšno polarizacijo imajo izhodne celice v ustreznih fazah urinega cikla.
+    \item \textbf{toleranca na premik} -- koliko se lahko celica na določenem mestu premakne, da damultiplekser še vedno ohrani pravilen izhod.
+\end{enumerate}
 
+Vse metrike bomo primerjali glede na izhode pri osnovnem modelu demultiplekserja s slike [REFERENCA na skico demultiplekserja z označenimi imeni celic, ki smo jih premikali!!].
 
 \section{Rezultati}
 \label{g01:sec:rezultati}
 
 [Rezultate predstavite s slikami, grafi in tabelami ter jih v besedilu razložite. Vsako sliko in tabelo omenite v besedilu, npr.\ slika~\ref{g01:fig:majoritetna} in tabela~\ref{g01:tab:primerjava}.]
+
+\subsection{Pravilnost izhoda}
+\label{g01:sec:pravilnost-izhoda}
+
+
 
 \begin{figure}[htbp]
 \centering
