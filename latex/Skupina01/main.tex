@@ -125,15 +125,13 @@ Pri poskusu smo merili sledeče metrike, s katerimi smo ocenjevali robustnost de
 \begin{enumerate}
     \item \textbf{pravilnost izhoda} -- splošen pregled: pri katerih premiki demultiplekser pri istih vhodnih podatkih ohrani isti izhod. 
     \item \textbf{velikost in stabilnost polarizacije} -- kakšno polarizacijo imajo izhodne celice v ustreznih fazah urinega cikla.
-    \item \textbf{toleranca na premik} -- koliko se lahko celica na določenem mestu premakne, da damultiplekser še vedno ohrani pravilen izhod.
+    \item \textbf{toleranca na premik} -- koliko se lahko celica na določenem mestu premakne, da demultiplekser še vedno ohrani pravilen izhod.
 \end{enumerate}
 
-Vse metrike bomo primerjali glede na izhode pri osnovnem modelu demultiplekserja s slike [REFERENCA na skico demultiplekserja z označenimi imeni celic, ki smo jih premikali!!].
+Vse metrike bomo primerjali glede na izhode pri osnovnem modelu demultiplekserja s slike~\ref{g01:fig:shema}.
 
 \section{Rezultati}
 \label{g01:sec:rezultati}
-
-[Rezultate predstavite s slikami, grafi in tabelami ter jih v besedilu razložite. Vsako sliko in tabelo omenite v besedilu, npr.\ slika~\ref{g01:fig:majoritetna} in tabela~\ref{g01:tab:parametri}.]
 
 \subsection{Pravilnost izhoda}
 \label{g01:sec:pravilnost-izhoda}
@@ -154,20 +152,22 @@ Iz Grafa~\ref{g01:fig:pravilnost-izhoda} lahko razberemo nekaj trendov:
     \item Šibkejši signal na M0 bi lahko tudi razložil razlike med celicama W3 in W4, saj celica W3 prejme šibkejši signal in zato na izhod Y0 premiki bolj vplivajo.
 \end{itemize}
 
-Imena celic, na katera se sklicujemo, so predstavlena na Sliki~\ref{g01:fig:shema}.
-Kumulativni delež neuspešnih scenarijev po velikosti premika je prikazan na Sliki~\ref{g01:fig:kumulativno}.
 
 \begin{figure}[htbp]
-\centering
-\includegraphics[width=0.9\textwidth]{displacement-overview}
-\caption{
-    Pravilnost izhodov pri premikanju posmeznih celic demultiplekserja. 
-    Vsaka vrstica prikazuje en del demultiplekserja (vodilo, negator, majoritetna vrata 0 in 1, od zgoraj navzdol). 
-    Modre pike prikazujejo poskuse z uspešnim izhodom, rdeči križci pa tiste z neuspešnim. 
-}
-\label{g01:fig:pravilnost-izhoda}
+    \centering
+    \includegraphics[width=1\textwidth]{displacement-overview}
+    \caption{
+        Pravilnost izhodov pri premikanju posmeznih celic demultiplekserja. 
+        Vsaka vrstica prikazuje en del demultiplekserja (vodilo, negator, majoritetna vrata 0 in 1, od zgoraj navzdol). 
+        Modre pike prikazujejo poskuse z uspešnim izhodom, rdeči križci pa tiste z neuspešnim. 
+    }
+    \label{g01:fig:pravilnost-izhoda}
 \end{figure}
-
+    
+Imena celic, na katera se sklicujemo, so predstavlena na Sliki~\ref{g01:fig:shema}.
+Kumulativni delež neuspešnih scenarijev po velikosti premika je prikazan na Sliki~\ref{g01:fig:kumulativno}. 
+Trend naraščanja nepravilnih izhodov demultiplekserja s povečavanjem odmika od njihove načrtovane lege je očiten. 
+Takšen graf bi lahko uporabili pri oceni napačnih izhodov, če bi vezja lahko izdelovali z določeno natančnostjo (npr. da odmiki ne bi bili večji od x nm)
 
 
 \begin{figure}[htbp]
@@ -176,7 +176,6 @@ Kumulativni delež neuspešnih scenarijev po velikosti premika je prikazan na Sl
 \caption{
     Kumulativni delež neuspešnih scenarijev glede na absolutno velikost premika, za vse celice in vse smeri skupaj.
     Pri vsakem odmiku je prikazan delež neuspešnih med vsemi poskusi s premikom, manjšim ali enakim temu odmiku; oznaka ob točki podaja še razmerje \emph{neuspešni/vsi}.
-    Premiki, pri katerih bi se celica prekrivala s sosednjo (M1b navzgor za 3, 4 in \SI{5}{\nano\metre}), niso bili simulirani.
 }
 \label{g01:fig:kumulativno}
 \end{figure}
