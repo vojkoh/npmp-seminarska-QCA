@@ -28,6 +28,18 @@ just --justfile visualizations/justfile viz-test
 The interactive view reuses the graph component's backend selection and needs a
 desktop session with Tk or Qt.
 
+## Cumulative failures
+
+`plot_cumulative.py` counts every analyzed case of a run once (all cells and
+directions together) and plots, for each absolute offset d, the percentage of
+cases with |offset| <= d that failed. Each point is labelled with the percentage
+and *failed/all* up to that offset.
+
+```sh
+just cumulative                        # newest run -> <run>/cumulative-failures.png
+just cumulative analysis_results/run.XXXXXX
+```
+
 ## Cell layout
 
 `plot_layout.py` draws the unchanged `qca-files/demultiplexer_12.qca` and names

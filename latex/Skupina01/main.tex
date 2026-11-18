@@ -63,7 +63,7 @@ urina shema & [USE] \\
 \subsection{Zasnova poskusov}
 \label{g01:sec:poskusi}
 
-
+%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.9\textwidth]{cell-layout}
@@ -73,6 +73,12 @@ urina shema & [USE] \\
 }
 \label{g01:fig:shema}
 \end{figure}
+
+NAŠA HIPOTEZA!!!
+Predpostavljamo, da občutljivost vezja na premike celic ni enakomerna. Premiki celic v bližini logičnih vrat (NOT in majoritetnih vrat) bodo povzročili večje spremembe izhodne polarizacije in hitreje privedli do nepravilnega delovanja kot primerljivi premiki celic v ravnih povezovalnih vodilih.
+
+Pričakujemo tudi, da bodo večji premiki povzročili izrazitejše odstopanje od rezultatov izvirne implementacije.
+%%%%%%%%%%%%%%%%%%%%%%%
 
 [Opišite, katere poskuse ste izvedli in zakaj. Enačbe pišite v okolju \texttt{equation} in se nanje sklicujte, npr.\ polarizacija celice je določena z enačbo~\eqref{g01:eq:polarizacija}.]
 
@@ -111,6 +117,7 @@ job = Sampler(mode=backend).run([isa], shots=1000)
 print(job.job_id(), job.result()[0].data.meas.get_counts())
 \end{lstlisting}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Metrike}
 \label{g01:sec:metrike}
 
@@ -126,7 +133,7 @@ Vse metrike bomo primerjali glede na izhode pri osnovnem modelu demultiplekserja
 \section{Rezultati}
 \label{g01:sec:rezultati}
 
-[Rezultate predstavite s slikami, grafi in tabelami ter jih v besedilu razložite. Vsako sliko in tabelo omenite v besedilu, npr.\ slika~\ref{g01:fig:majoritetna} in tabela~\ref{g01:tab:napake-po-premiku}.]
+[Rezultate predstavite s slikami, grafi in tabelami ter jih v besedilu razložite. Vsako sliko in tabelo omenite v besedilu, npr.\ slika~\ref{g01:fig:majoritetna} in tabela~\ref{g01:tab:parametri}.]
 
 \subsection{Pravilnost izhoda}
 \label{g01:sec:pravilnost-izhoda}
@@ -148,7 +155,7 @@ Iz Grafa~\ref{g01:fig:pravilnost-izhoda} lahko razberemo nekaj trendov:
 \end{itemize}
 
 Imena celic, na katera se sklicujemo, so predstavlena na Sliki~\ref{g01:fig:shema}.
-Število neuspešnih poskusov po velikosti premika je zbrano v Tabeli~\ref{g01:tab:napake-po-premiku}.
+Kumulativni delež neuspešnih scenarijev po velikosti premika je prikazan na Sliki~\ref{g01:fig:kumulativno}.
 
 \begin{figure}[htbp]
 \centering
@@ -163,31 +170,18 @@ Imena celic, na katera se sklicujemo, so predstavlena na Sliki~\ref{g01:fig:shem
 
 
 
-\begin{table}[htbp]
+\begin{figure}[htbp]
 \centering
-\small
+\includegraphics[width=0.75\textwidth]{cumulative-failures}
 \caption{
-    Število neuspešnih poskusov glede na absolutno velikost premika (v katerikoli dovoljeni smeri), ločeno po delih vezja.
-    Vsak vnos je oblike \emph{neuspešni/vsi} poskusi pri tej velikosti premika.
-    Premiki, pri katerih bi se celica prekrivala s sosednjo, niso bili simulirani (M1b navzgor za 3, 4 in \SI{5}{\nano\metre}).
-    \label{g01:tab:napake-po-premiku}
+    Kumulativni delež neuspešnih scenarijev glede na absolutno velikost premika, za vse celice in vse smeri skupaj.
+    Pri vsakem odmiku je prikazan delež neuspešnih med vsemi poskusi s premikom, manjšim ali enakim temu odmiku; oznaka ob točki podaja še razmerje \emph{neuspešni/vsi}.
+    Premiki, pri katerih bi se celica prekrivala s sosednjo (M1b navzgor za 3, 4 in \SI{5}{\nano\metre}), niso bili simulirani.
 }
-\begin{tabular}{lrrrrrrrr}
-\toprule
- & \multicolumn{7}{c}{Velikost premika [\si{\nano\metre}]} & \\
-\cmidrule(lr){2-8}
-Del vezja & 0,5 & 1 & 1,5 & 2 & 3 & 4 & 5 & Skupaj \\
-\midrule
-Vodilo (W1--W4)              & 0/8  & 0/8  & 0/8  & 1/8  & 1/8   & 3/8   & 4/8   & 9/56 \\
-Negator (N1)                 & 0/3  & 0/3  & 0/3  & 0/3  & 0/3   & 0/3   & 0/3   & 0/21 \\
-Majoritetna vrata 0 (M0a--e) & 0/18 & 4/18 & 7/18 & 7/18 & 11/18 & 12/18 & 11/18 & 52/126 \\
-Majoritetna vrata 1 (M1a--e) & 0/17 & 0/17 & 0/17 & 1/17 & 1/16  & 3/16  & 7/16  & 12/116 \\
-\midrule
-Vse celice                   & 0/46 & 4/46 & 7/46 & 9/46 & 13/45 & 18/45 & 22/45 & 73/319 \\
-Celice z vsaj eno napako (od 15) & 0 & 2 & 4 & 6 & 7 & 9 & 12 & \\
-\bottomrule
-\end{tabular}
-\end{table}
+\label{g01:fig:kumulativno}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{Razprava}

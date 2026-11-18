@@ -66,6 +66,10 @@ viz run="":
 viz-view run="":
     just --justfile visualizations/justfile viz-view "$(just --justfile "{{justfile()}}" _latest-run "{{run}}")"
 
+# Cumulative failing scenarios vs. absolute offset (default: newest analysis_results/run.*).
+cumulative run="":
+    just --justfile visualizations/justfile cumulative "$(just --justfile "{{justfile()}}" _latest-run "{{run}}")"
+
 # Labelled diagram of the original circuit naming every displaced cell (W1, N1, M0a, ...).
 layout output="":
     just --justfile visualizations/justfile layout "{{output}}"

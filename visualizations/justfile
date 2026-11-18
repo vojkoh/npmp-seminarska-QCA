@@ -41,5 +41,16 @@ layout output="":
 layout-view:
     PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_layout.py --view
 
+# Save the cumulative failing-scenario plot; optional PNG path (default <run dir>/cumulative-failures.png).
+[positional-arguments]
+cumulative run_dir output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ -n "${2:-}" ]]; then
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_cumulative.py "$1" --output "$2"
+    else
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_cumulative.py "$1"
+    fi
+
 viz-test:
     PYTHONDONTWRITEBYTECODE=1 {{venv}} -m unittest discover -s visualizations -v
