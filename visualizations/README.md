@@ -28,6 +28,21 @@ just --justfile visualizations/justfile viz-test
 The interactive view reuses the graph component's backend selection and needs a
 desktop session with Tk or Qt.
 
+## Output polarization
+
+`plot_polarization.py` creates **two figures, one for Y0 and one for Y1**, in the
+same grid as the displacement overview. Each run is one circle, coloured by the
+absolute output polarization |P| of that output's weakest hold window in the run,
+from blue (strongest) to red (weakest). Both figures share one colour scale that
+covers only the observed range, so they can be compared directly. The sign is not
+shown, so use them together with the PASS/FAIL overview. The unchanged circuit is
+drawn at the origin.
+
+```sh
+just polarization                      # newest run -> <run>/polarization-Y0.png, polarization-Y1.png
+just polarization analysis_results/run.XXXXXX
+```
+
 ## Cumulative failures
 
 `plot_cumulative.py` counts every analyzed case of a run once (all cells and

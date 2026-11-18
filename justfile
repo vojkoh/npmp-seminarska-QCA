@@ -70,6 +70,10 @@ viz-view run="":
 cumulative run="":
     just --justfile visualizations/justfile cumulative "$(just --justfile "{{justfile()}}" _latest-run "{{run}}")"
 
+# Output-polarization overviews (Y0 and Y1) of a run (default: newest analysis_results/run.*).
+polarization run="":
+    just --justfile visualizations/justfile polarization "$(just --justfile "{{justfile()}}" _latest-run "{{run}}")"
+
 # Labelled diagram of the original circuit naming every displaced cell (W1, N1, M0a, ...).
 layout output="":
     just --justfile visualizations/justfile layout "{{output}}"

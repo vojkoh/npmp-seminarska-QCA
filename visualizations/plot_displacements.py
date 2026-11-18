@@ -81,31 +81,30 @@ def layout(cells):
     return list(rows.items())
 
 
-def build_figure(cells, title=None):
+def cell_grid(cells, origin_marker=True, extra_width=0.0):
+    """Shared layout: one subplot per cell, rows by group, equal limits, +y down.
+
+    Returns the figure and {cell_id: axis}; unused grid slots are hidden.
+    """
     rows = layout(cells)
     ncols = max(len(ids) for _, ids in rows)
-    figure, axes = plt.subplots(len(rows), ncols, squeeze=False, sharex=True, sharey=True, layout='constrained',
-                                figsize=(3.2 * ncols, 3.4 * len(rows) + 0.8))
-    limit = max(max(abs(dx), abs(dy)) for _, runs in cells.values() for dx, dy, _ in runs)
+    figure, axes = plt.subplots(len(rows), ncols, squeeze=False, sharex=True, sharey=True,
+                                layout='constrained',
+                                figsize=(3.2 * ncols + extra_width, 3.4 * len(rows) + 0.8))
+    limit = max(max(abs(r[0]), abs(r[1])) for _, runs in cells.values() for r in runs)
     limit = limit * 1.15 or 1
+    by_cell = {}
     for (key, ids), axis_row in zip(rows, axes):
         for column, axis in enumerate(axis_row):
             if column >= len(ids):
                 axis.set_visible(False)
                 continue
-            cell_id = ids[column]
-            runs = cells[cell_id][1]
+            by_cell[ids[column]] = axis
             axis.axhline(0, color='0.75', linewidth=0.6, zorder=0)
             axis.axvline(0, color='0.75', linewidth=0.6, zorder=0)
-            axis.plot([0], [0], marker='+', color='0.2', markersize=9, linestyle='none', zorder=1)
-            for passed, color, marker in ((True, PASS_COLOR, 'o'), (False, FAIL_COLOR, 'X')):
-                points = [(dx, dy) for dx, dy, ok in runs if ok is passed]
-                if points:
-                    xs, ys = zip(*points)
-                    axis.scatter(xs, ys, c=color, marker=marker, s=46,
-                                 edgecolors='white', linewidths=0.8, zorder=2)
-            passes = sum(ok for *_, ok in runs)
-            axis.set_title(f'{cell_id}  ({passes}/{len(runs)} pravilnih)', fontsize=10)
+            if origin_marker:
+                axis.plot([0], [0], marker='+', color='0.2', markersize=9, linestyle='none',
+                          zorder=1)
             axis.set_xlim(-limit, limit)
             axis.set_ylim(limit, -limit)  # +y is down in QCADesigner-E
             axis.set_aspect('equal')
@@ -114,6 +113,21 @@ def build_figure(cells, title=None):
             if column == 0:
                 axis.set_ylabel(f'{ROW_TITLES.get(key, key)}\ndy [nm] (+ navzdol)', fontsize=9)
             axis.set_xlabel('dx [nm]', fontsize=8)
+    return figure, by_cell
+
+
+def build_figure(cells, title=None):
+    figure, by_cell = cell_grid(cells)
+    for cell_id, axis in by_cell.items():
+        runs = cells[cell_id][1]
+        for passed, color, marker in ((True, PASS_COLOR, 'o'), (False, FAIL_COLOR, 'X')):
+            points = [(dx, dy) for dx, dy, ok in runs if ok is passed]
+            if points:
+                xs, ys = zip(*points)
+                axis.scatter(xs, ys, c=color, marker=marker, s=46,
+                             edgecolors='white', linewidths=0.8, zorder=2)
+        passes = sum(ok for *_, ok in runs)
+        axis.set_title(f'{cell_id}  ({passes}/{len(runs)} pravilnih)', fontsize=10)
     legend = [Line2D([], [], marker='o', color='w', markerfacecolor=PASS_COLOR,
                      markersize=8, label='pravilno (PASS)'),
               Line2D([], [], marker='X', color='w', markerfacecolor=FAIL_COLOR,

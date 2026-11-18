@@ -52,5 +52,16 @@ cumulative run_dir output="":
         PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_cumulative.py "$1"
     fi
 
+# Save polarization-Y0.png and polarization-Y1.png; optional output directory (default: the run directory).
+[positional-arguments]
+polarization run_dir output_dir="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ -n "${2:-}" ]]; then
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_polarization.py "$1" --output-dir "$2"
+    else
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_polarization.py "$1"
+    fi
+
 viz-test:
     PYTHONDONTWRITEBYTECODE=1 {{venv}} -m unittest discover -s visualizations -v
