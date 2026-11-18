@@ -1,6 +1,5 @@
 # npmp-seminarska-QCA
 
-
 This it the repo containing files for a QCA seminar at NPMP course at University of Ljubljana, Faculty of computer science. 
 Authors: Vojko Hysz, Matic Poženel, Gašper Suhadolnik
 
@@ -66,6 +65,13 @@ of the existing [graph export recipe](graph/justfile). To enable it, first run
 `just --justfile graph/justfile graph-setup`, then uncomment that invocation.
 It uses the same saved simulation as the analyzer and exports into that case's
 `graphs/` directory; normal workflow execution neither sets up nor invokes graphs.
+
+### Displacement overview
+
+`just run` does not plot. Afterwards, `just viz [RUN_DIR]` (default: newest run)
+plots every displaced cell's results as PASS/FAIL dots on a dx/dy grid and saves
+`<run dir>/displacement-overview.png`; `just viz-view [RUN_DIR]` opens it in a
+window without saving. Dependencies are installed by `just workflow-setup`. See the [visualization documentation](visualizations/README.md).
 
 ### Cleanup
 

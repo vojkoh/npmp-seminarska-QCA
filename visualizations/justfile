@@ -1,0 +1,30 @@
+set working-directory := ".."
+
+venv := "visualizations/.venv/bin/python"
+
+@run:
+    just --justfile visualizations/justfile --list
+
+# Create the visualization environment and install dependencies.
+viz-setup:
+    python3 -m venv visualizations/.venv
+    {{venv}} -m pip install -r visualizations/requirements.txt
+
+# Save the PASS/FAIL displacement overview; optional PNG path.
+[positional-arguments]
+viz run_dir output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ -n "$2" ]]; then
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_displacements.py "$1" --output "$2"
+    else
+        PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_displacements.py "$1"
+    fi
+
+# Show the overview in one interactive window without saving.
+[positional-arguments]
+viz-view run_dir:
+    PYTHONDONTWRITEBYTECODE=1 {{venv}} visualizations/plot_displacements.py "$1" --view
+
+viz-test:
+    PYTHONDONTWRITEBYTECODE=1 {{venv}} -m unittest discover -s visualizations -v

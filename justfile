@@ -58,15 +58,33 @@ graph-all:
         just --justfile graph/justfile graph-view "$f"
     done
 
-# Install the existing generator and analyzer dependencies (no graph setup).
+# PASS/FAIL displacement overview of a run (default: newest analysis_results/run.*).
+viz run="":
+    just --justfile visualizations/justfile viz "$(just --justfile "{{justfile()}}" _latest-run "{{run}}")"
+
+# Same overview in an interactive window; nothing is saved.
+viz-view run="":
+    just --justfile visualizations/justfile viz-view "$(just --justfile "{{justfile()}}" _latest-run "{{run}}")"
+
+[positional-arguments]
+@_latest-run run="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ -n "$1" ]]; then echo "$1"; exit 0; fi
+    latest=$(ls -td {{workflow_results}}/run.*/ 2>/dev/null | head -n1)
+    [[ -n "$latest" ]] || { echo "ERROR: no {{workflow_results}}/run.* directory; pass one explicitly" >&2; exit 2; }
+    echo "${latest%/}"
+
+# Install the generator, analyzer and visualization dependencies (no graph setup).
 workflow-setup:
     just --justfile analysis/justfile analysis-setup
     just --justfile generator/justfile setup
+    just --justfile visualizations/justfile viz-setup
 
 # Remove only conventional output/cache directories; keep configuration and venvs.
 clean:
     rm -rf -- analysis_results generator/generated
-    rm -rf -- .pytest_cache analysis/__pycache__ generator/__pycache__ generator/.pytest_cache graph/__pycache__
+    rm -rf -- .pytest_cache analysis/__pycache__ generator/__pycache__ generator/.pytest_cache graph/__pycache__ visualizations/__pycache__
 
 # Simulate the unchanged original and require an actual complete PASS result.
 validate-baseline output_dir: (_analyze-circuit baseline output_dir "true")
