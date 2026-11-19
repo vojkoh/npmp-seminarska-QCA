@@ -1,0 +1,303 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Skupina01/main.tex -- VZOREC POGLAVJA
+%
+% Ta datoteka je primer, kako je poglavje zgrajeno. Kopirajte jo v svoj
+% direktorij SkupinaXX, zamenjajte "g01:" z "gXX:" in besedilo v oglatih
+% oklepajih [ ... ] nadomestite s svojim.
+%
+% Pravila:
+%  - brez \usepackage (vse pakete naloži editor.tex),
+%  - slike v SkupinaXX/img/, vse oznake in ključi virov z "gXX:",
+%  - vire dodajte v skupno datoteko references.bib (z doi ali url).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\graphicspath{{Skupina27/img/}}
+
+\title{Analiza odpornosti QCA demultiplekserja na napake zaradi premikov celic}
+% \titlerunning{[Krajši naslov]}  % če je naslov predolg za glavo strani
+\author{Vojko Hysz, Gašper Suhadolnik in Matic Poženel}
+\maketitle
+
+% \abstract{[Povzetek v 5 do 10 vrsticah. Navedite raziskovalno vprašanje, uporabljeno metodo in orodja ter glavni rezultat s konkretno številko, npr.\ \enquote{Fizično reverzibilna izvedba polnega seštevalnika potrebuje 2,3-krat več celic in ima 1,5 urina cikla večjo zakasnitev kot ireverzibilna, disipira pa 40~\% manj energije.} Končajte z enim stavkom o pomenu rezultata.]}
+
+\abstract{V seminarski nalogi smo podrobneje analizirali implementacijo demultiplekserja 1:2 iz izhodiščnega članka [c], ki je zasnovan v tehnologiji kvantnih celičnih avtomatov. Preverjali smo vpliv premikov celic v ključnih komponentah in v bližini vhodov in izhodov ter podrobno analizirali pravilnost delovanja in polarizacijo izhodov pri posameznih premikih vsake celice. Eksperimenti so pokazali, da celice v majoritetnih vratih povrzočijo nepravilno delovanje pri premiku za 1nm, medtem ko celica v negatorju ne povzroči napake niti ob premiku za 5nm. Občutljivost celic na pravilnost delovanja je odvisna predvsem od moči signala oz. oddaljenosti od vhoda.}
+
+
+\section{Uvod}
+\label{g27:sec:uvod}
+
+% TODO
+% [Kratko predstavite področje (največ dve strani) in ga podprite z viri, npr.~\cite{lent1997} za kvantne celične avtomate ali~\cite{nielsen2010} za kvantno računanje. Opišite, kaj so drugi že naredili in kaj ostaja odprto.]
+
+% TODO
+% \begin{svgraybox}
+% \textbf{Raziskovalno vprašanje.} [Eno vprašanje, na katero bo poglavje odgovorilo z meritvijo, npr.\ \enquote{Pri koliko qubitih Groverjev algoritem na procesorju IBM ne da več uporabnega rezultata?}]
+
+% \textbf{Pričakovani rezultat.} [Vaša hipoteza pred začetkom dela.]
+% \end{svgraybox}
+
+\begin{svgraybox}
+\textbf{Raziskovalno vprašanje.} Kako premiki posameznih celic vplivajo na pravilnost delovanja, polarizacijo izhodov in energijsko disipacijo demultiplekserja $1:2$, zasnovanega s kvantnimi celičnimi avtomati (QCA)? Katere celice so najbolj občutljive na tovrstne napake?
+
+\noindent
+\textbf{Pričakovani rezultat.} Predpostavljamo, da občutljivost vezja na premike celic ni enakomerna. Premiki celic v bližini logičnih vrat (NOT in majoritetnih vrat) bodo povzročili večje spremembe izhodne polarizacije in hitreje privedli do nepravilnega delovanja kot primerljivi premiki celic v ravnih povezovalnih vodilih.
+\end{svgraybox}
+
+% TODO: opiši zgradbo
+% [Na koncu uvoda v nekaj stavkih opišite zgradbo poglavja.]
+
+
+\section{Metode}
+\label{g27:sec:metode}
+
+% TODO
+
+\subsection{Orodja in nastavitve}
+\label{g27:sec:orodja}
+
+% TODO
+% [Navedite orodja z različicami in vse nastavitve, ki vplivajo na rezultat, tako da lahko drugi poskus ponovijo. Tabela~\ref{g27:tab:parametri} je primer.]
+
+% \begin{table}[htbp]
+% \caption{Primer: parametri simulacije v QCADesigner-E. [Vpišite svoje vrednosti.]}
+% \label{g27:tab:parametri}
+% \centering
+% \begin{tabular}{lr}
+% \toprule
+% Parameter & Vrednost \\
+% \midrule
+% simulacijski model & [koherentni vektor] \\
+% temperatura & [\SI{1}{\kelvin}] \\
+% širina celice & [\SI{18}{\nano\metre}] \\
+% razdalja med središči celic & [\SI{20}{\nano\metre}] \\
+% urina shema & [USE] \\
+% \bottomrule
+% \end{tabular}
+% \end{table}
+
+\subsection{Zasnova poskusov}
+\label{g27:sec:poskusi}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{cell-layout}
+\caption{
+    Shema demultiplekserja. 
+    Celice so označene z imeni, ki so uporabljene za skicevanje nanje v nadaljevanju.
+}
+\label{g27:fig:shema}
+\end{figure}
+
+NAŠA HIPOTEZA!!!
+Predpostavljamo, da občutljivost vezja na premike celic ni enakomerna. Premiki celic v bližini logičnih vrat (NOT in majoritetnih vrat) bodo povzročili večje spremembe izhodne polarizacije in hitreje privedli do nepravilnega delovanja kot primerljivi premiki celic v ravnih povezovalnih vodilih.
+
+Pričakujemo tudi, da bodo večji premiki povzročili izrazitejše odstopanje od rezultatov izvirne implementacije.
+%%%%%%%%%%%%%%%%%%%%%%%
+
+% [Opišite, katere poskuse ste izvedli in zakaj. Enačbe pišite v okolju \texttt{equation} in se nanje sklicujte, npr.\ polarizacija celice je določena z enačbo~\eqref{g27:eq:polarizacija}.]
+
+% \begin{equation}
+% P = \frac{(\rho_1 + \rho_3) - (\rho_2 + \rho_4)}{\rho_1 + \rho_2 + \rho_3 + \rho_4}
+% \label{g27:eq:polarizacija}
+% \end{equation}
+
+% [Za izris kvantnih vezij lahko uporabite paket \texttt{quantikz}. Slika~\ref{g27:fig:bell} je primer vezja, ki pripravi Bellovo stanje $\frac{1}{\sqrt{2}}(\ket{00} + \ket{11})$.]
+
+% \begin{figure}[htbp]
+% \centering
+% \begin{quantikz}
+% \lstick{$\ket{0}$} & \gate{H} & \ctrl{1} & \meter{} \\
+% \lstick{$\ket{0}$} & \qw      & \targ{}  & \meter{}
+% \end{quantikz}
+% \caption{Primer kvantnega vezja: priprava in merjenje Bellovega stanja.}
+% \label{g27:fig:bell}
+% \end{figure}
+
+% [Kratke odseke kode lahko vključite z okoljem \texttt{lstlisting}, celotno kodo pa hranite v repozitoriju.]
+
+% \begin{lstlisting}[language=Python, caption={Primer: izvedba vezja na kvantnem procesorju IBM.}, label={g27:lst:qiskit}]
+% from qiskit import QuantumCircuit
+% from qiskit.transpiler import generate_preset_pass_manager
+% from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
+% 
+% qc = QuantumCircuit(2)
+% qc.h(0)
+% qc.cx(0, 1)
+% qc.measure_all()
+% 
+% backend = QiskitRuntimeService().least_busy(operational=True, simulator=False)
+% isa = generate_preset_pass_manager(backend=backend, optimization_level=1).run(qc)
+% job = Sampler(mode=backend).run([isa], shots=1000)
+% print(job.job_id(), job.result()[0].data.meas.get_counts())
+% \end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Metrike}
+\label{g27:sec:metrike}
+
+Pri poskusu smo merili sledeče metrike, s katerimi smo ocenjevali robustnost demultiplekserja pri zamiku posameznih celic. 
+\begin{enumerate}
+    \item \textbf{Pravilnost izhoda} -- splošen pregled: pri katerih premikih demultiplekser pri istih vhodnih podatkih ohrani isti izhod. 
+    \item \textbf{Toleranca na premik} -- koliko se lahko celica na določenem mestu premakne, da demultiplekser še vedno ohrani pravilen izhod.
+    \item \textbf{Zanesljivost delovanja pri določenem premiku} -- kako zanesljivo bo v povprečju demultiplekser deloval, če eno celico zamaknemo za določeno razdaljo.
+    \item \textbf{Velikost in stabilnost polarizacije} -- kakšno polarizacijo imajo izhodne celice v ustreznih fazah urinega cikla.
+\end{enumerate}
+
+Vse metrike bomo primerjali glede na izhode pri osnovnem modelu demultiplekserja s slike~\ref{g27:fig:shema}.
+
+\section{Rezultati}
+\label{g27:sec:rezultati}
+
+\subsection{Pravilnost izhoda}
+\label{g27:sec:pravilnost-izhoda}
+
+Kot pričakovano, premiki celic za nekaj nanometrov v različnih smereh vplivajo na pravilno delovanje QCA demultiplekserja.
+Pri različnih delih vezja imajo premiki različen vpliv. 
+Tudi smer premika vpliva na pravilnost delovanja vezja. 
+Iz Grafa~\ref{g27:fig:pravilnost-izhoda} lahko razberemo nekaj trendov: 
+
+\begin{itemize}
+    \item Najbolj občutljivo vodilo je vodilo W2, ko povezuje vhod D z demultiplekserjem.
+    \item Zanimivo je, da sta si celici W1 in W2 različni v robustnosti, saj opravljata podobno funkcijo.
+    Razlika se zelo verjetno pojavi zaradi interference med celicama, saj se lahko takšen vpliv prenaša samo v smeri naraščajoče ure, ne pa tudi v drugo smer.
+    \item Negator je odporen na vse premike do \SI{5}{\nano\metre}.
+    \item Majoritetna vrata 0 so veliko bolj občutljiva na premike kot majoritetna vrata 1.
+    Takšno obnašanje bi lahko razložili s tem, da majoritetna vrata 0 prejmejo na vhodih veliko šibkejši signal, ki je prepotoval veliko daljšo pot, zato premiki celic veliko bolj vplivajo na izhod.
+    \item V splošnem lahko opazimo, da na pravilnost delovanja najbolj vplivajo fiksno polarizirane celice (M0a in M1d) ter celice v sredini majoritetnih vrat (M0c in M1c).
+    \item Šibkejši signal na M0 bi lahko tudi razložil razlike med celicama W3 in W4, saj celica W3 prejme šibkejši signal in zato na izhod Y0 premiki bolj vplivajo.
+\end{itemize}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{displacement-overview}
+    \caption{
+        Pravilnost izhodov pri premikanju posmeznih celic demultiplekserja. 
+        Vsaka vrstica prikazuje en del demultiplekserja (vodilo, negator, majoritetna vrata 0 in 1, od zgoraj navzdol). 
+        Modre pike prikazujejo poskuse z uspešnim izhodom, rdeči križci pa tiste z neuspešnim. 
+    }
+    \label{g27:fig:pravilnost-izhoda}
+\end{figure}
+    
+Imena celic, na katera se sklicujemo, so predstavlena na Sliki~\ref{g27:fig:shema}.
+
+
+\subsection{Toleranca na premik}
+
+Toleranco posamezne celice na premik smo ocenili kot povprečje razdalj, pri katerih celica v posamezni dovoljeni smeri prvič povzroči napačen izhod (Tabela~\ref{g27:tab:toleranca}).
+Smeri, v katerih celica do največjega preizkušenega premika (\SI{5}{\nano\metre}) ni povzročila napake, smo v povprečje šteli s \SI{5}{\nano\metre}; v tem primeru je povprečje le spodnja meja prave tolerance in je označeno z $\geq$.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{
+    Razdalja premika (v \si{\nano\metre}), pri kateri celica v posamezni smeri prvič povzroči napačen izhod, in njihovo povprečje.
+    Oznaka $>5$ pomeni, da celica v tej smeri do \SI{5}{\nano\metre} ni povzročila napake, \enquote{--} pa, da premik v tej smeri ni bil dovoljen.
+}
+\label{g27:tab:toleranca}
+\begin{tabular}{lccccc}
+\toprule
+Celica & $+x$ (desno) & $-x$ (levo) & $+y$ (dol) & $-y$ (gor) & Povprečje \\
+\midrule
+W1  & --    & --    & $>5$  & $>5$  & $\geq$\,5,00 \\
+W2  & --    & --    & 5     & 2     & 3,50 \\
+W3  & --    & --    & 4     & 4     & 4,00 \\
+W4  & --    & --    & $>5$  & $>5$  & $\geq$\,5,00 \\
+\midrule
+N1  & $>5$  & $>5$  & --    & $>5$  & $\geq$\,5,00 \\
+\midrule
+M0a & 1     & 3     & 1     & 4     & 2,25 \\
+M0b & --    & $>5$  & $>5$  & 1,5   & $\geq$\,3,83 \\
+M0c & $>5$  & 1     & 1,5   & 1     & $\geq$\,2,13 \\
+M0d & 3     & 1,5   & --    & $>5$  & $\geq$\,3,17 \\
+M0e & 3     & $>5$  & 3     & $>5$  & $\geq$\,4,00 \\
+\midrule
+M1a & $>5$  & --    & $>5$  & 5     & $\geq$\,5,00 \\
+M1b & 5     & $>5$  & $>5$  & 2     & $\geq$\,4,25 \\
+M1c & 4     & 5     & 3     & --    & 4,00 \\
+M1d & 4     & $>5$  & $>5$  & $>5$  & $\geq$\,4,75 \\
+M1e & --    & $>5$  & 5     & $>5$  & $\geq$\,5,00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Zanesljivost delovanja pri določenem premiku}
+
+Kumulativni delež neuspešnih scenarijev po velikosti premika je prikazan na Sliki~\ref{g27:fig:kumulativno}. 
+Trend naraščanja nepravilnih izhodov demultiplekserja s povečavanjem odmika od njihove načrtovane lege je očiten. 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.75\textwidth]{cumulative-failures}
+\caption{
+    Kumulativni delež neuspešnih scenarijev glede na absolutno velikost premika, za vse celice in vse smeri skupaj.
+    Pri vsakem odmiku je prikazan delež neuspešnih med vsemi poskusi s premikom, manjšim ali enakim temu odmiku; oznaka ob točki podaja še razmerje \emph{neuspešni/vsi}.
+}
+\label{g27:fig:kumulativno}
+\end{figure}
+
+
+\subsection{Velikost in stabilnost polarizacije}
+
+Pri vsakem poskusu smo merili polarizacijo na izhodnih celicah, da bi ugotovili, kako močno določeni premiki vplivjo nanjo. 
+Meritve izhodne polarizacije so prikazane za vse možne premike za Y0 na grafu~\ref{g27:fig:y0} ter za Y1 na grafu~\ref{g27:fig:y1}.
+Iz grafov je jasno razvidno, da imajo na polarizacijo opazen vpliv samo premiki celic W3 in W4.
+To sta celici, ki sta neposredna soseda izhodnih celic.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{polarization-Y0}
+\caption{
+    Polarizacija izhoda Y0. Polarizacija je prikazana za vse možne premike. 
+    Absolutna vrednost polarizacije je prikazana s pomočjo barvne lestvice.
+}
+\label{g27:fig:y0}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{polarization-Y1}
+\caption{
+    Polarizacija izhoda Y1. Polarizacija je prikazana za vse možne premike. 
+    Absolutna vrednost polarizacije je prikazana s pomočjo barvne lestvice.
+}
+\label{g27:fig:y1}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Razprava}
+
+\label{g27:sec:razprava}
+
+% TODO
+% [Odgovorite na raziskovalno vprašanje in rezultat primerjajte s pričakovanim. Opišite omejitve: kaj vaši rezultati pokažejo in česa ne.]
+
+\subsection{Kaj ni delovalo}
+\label{g27:sec:neuspehi}
+
+% TODO
+% [Opišite vsaj en poskus, ki ni uspel, kaj ste opazili in zakaj po vašem mnenju ni deloval.]
+
+Pri M0d demux ne deluje pri px=4, pri px=5 pa. To je neka anomalija, ki je ne znamo razložiti. 
++ Pričakovali smo, da bo polarizacija različna za različne tipe premikov, a je skoraj vedno enaka (torej popolnoma pravilna ali popolnoma napačna).
+
+\section{Zaključek}
+\label{g27:sec:zakljucek}
+
+% TODO
+% [Povzemite glavni rezultat v nekaj stavkih in predlagajte, kako bi delo nadaljevali.]
+
+
+\section*{Doprinosi avtorjev}
+
+% TODO
+% [Za vsakega člana v dveh do treh stavkih: kateri del izdelka in poročila je pripravil. Npr.\ \enquote{Ime Priimek je zasnoval in simuliral reverzibilni seštevalnik, pripravil sliko~\ref{g27:fig:majoritetna} in napisal poglavje~\ref{g27:sec:metode}.}]
+
+\section*{Izjava o uporabi generativne umetne inteligence}
+
+% TODO
+% [Navedite orodja in za kaj ste jih uporabili. Npr. pomoč pri pisanju kode, lektoriranje ali iskanje virov. Če orodij niste uporabili, to zapišite.]
