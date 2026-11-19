@@ -25,6 +25,72 @@
 \section{Uvod}
 \label{g27:sec:uvod}
 
+Zaradi nenehnega razvoja računalniške tehnologije in vse večjih zahtev po zmogljivosti elektronskih naprav se pojavlja potreba po novih načinih implementacije logičnih vezij. Klasična tehnologija CMOS (angl. \textit{Complementary Metal-Oxide-Semiconductor}), ki temelji na uporabi tranzistorjev, se pri nadaljnjem zmanjševanju dimenzij sooča z različnimi fizikalnimi omejitvami. Med pomembnejše težave sodijo uhajalni tokovi, segrevanje in vse večja poraba energije. Kot ena izmed možnih alternativ se je razvila tehnologija kvantnih celičnih avtomatov (QCA, angl. \textit{Quantum-dot Cellular Automata}), ki sta jo leta 1993 predstavila Lent in sodelavci \cite{lent1993}.
+
+\subsection{Kvantni celični avtomati}
+
+Tehnologija QCA predstavlja drugačen pristop k načrtovanju digitalnih vezij, saj za prenos in obdelavo informacij ne uporablja klasičnega električnega toka skozi tranzistorje, temveč elektrostatične interakcije med sosednjimi celicami. Osnovni gradnik te tehnologije je kvantna celica, ki je sestavljena iz štirih kvantnih pik, razporejenih na ogliščih kvadrata. V celici sta dva elektrona, ki se zaradi medsebojnega elektrostatičnega odboja razporedita v nasprotni oglišči. Tako nastaneta dve stabilni konfiguraciji, ki predstavljata logični stanji 0 in 1. Stanje celice opišemo s polarizacijo $P$, pri čemer vrednost $P=-1$ predstavlja logično 0, vrednost $P=+1$ pa logično 1.
+
+Informacija se med sosednjimi celicami prenaša preko elektrostatičnega vpliva, pri čemer polarizacija ene celice vpliva na polarizacijo sosednjih celic. S povezovanjem več celic lahko tako ustvarimo logična vrata, povezovalna vodila in kompleksnejša digitalna vezja. Pomembna prednost tehnologije QCA je možnost zelo majhnih dimenzij vezij, visoke gostote integracije in potencialno nizke porabe energije, saj za delovanje ni potreben običajen električni tok skozi logične elemente. Poleg tega lahko QCA omogoča zelo hitro obdelavo informacij na nanometrski ravni \cite{lent1993}.
+
+Kljub omenjenim prednostim ima tehnologija QCA tudi nekatere pomembne omejitve. Delovanje celic je močno odvisno od njihovih medsebojnih elektrostatičnih interakcij, zato lahko že manjša odstopanja pri njihovi izdelavi vplivajo na pravilnost prenosa informacij. Med možne napake sodijo manjkajoče celice, napačna orientacija celic in njihovi fizični premiki glede na predvideno lego. Sprememba razdalje med celicami namreč vpliva na moč medsebojnega elektrostatičnega vpliva in posledično na njihovo polarizacijo. Dodatne omejitve predstavljajo temperaturna občutljivost, zahteve glede natančnosti izdelave ter potreba po ustreznem uravnavanju urnih signalov. Zaradi teh lastnosti je zanesljivost delovanja QCA-vezij pomembno področje raziskav \cite{khan2023}.
+
+\subsection{Demultiplekser 1:2}
+
+Demultiplekser je kombinacijsko logično vezje, ki en vhodni podatkovni signal usmerja na enega izmed več izhodov. Izbira izhoda je določena z vrednostjo izbirnih oziroma krmilnih vhodov. Demultiplekser $1:2$ ima en podatkovni vhod $D$, en izbirni vhod $S$ in dva izhoda $Y_0$ ter $Y_1$. Glede na vrednost izbirnega vhoda se vhodni signal prenese na ustrezni izhod, medtem ko drugi izhod ostane v logičnem stanju 0.
+
+Logično delovanje demultiplekserja $1:2$ lahko opišemo z naslednjima enačbama:
+
+\begin{equation}
+Y_0 = D \cdot \overline{S}
+\end{equation}
+
+\begin{equation}
+Y_1 = D \cdot S
+\end{equation}
+
+Iz enačb je razvidno, da se vhodni signal $D$ prenese na izhod $Y_0$, kadar je $S=0$, oziroma na izhod $Y_1$, kadar je $S=1$. Če je vhodni signal $D=0$, sta oba izhoda ne glede na vrednost izbirnega vhoda enaka 0. Delovanje vezja prikazuje tabela~\ref{tab:demux}.
+
+\begin{table}[h]
+\centering
+\caption{Resničnostna tabela demultiplekserja $1:2$.}
+\label{tab:demux}
+\begin{tabular}{c|c|c|c}
+$D$ & $S$ & $Y_0$ & $Y_1$ \\
+\hline
+0 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+1 & 0 & 1 & 0 \\
+1 & 1 & 0 & 1 \\
+\end{tabular}
+\end{table}
+
+Demultiplekserji se uporabljajo predvsem za usmerjanje podatkov in porazdeljevanje signalov v digitalnih sistemih. Najdemo jih v komunikacijskih sistemih, kjer omogočajo razdeljevanje sprejetih podatkovnih signalov, ter v mikroprocesorskih sistemih, pomnilniških vezjih in digitalnih krmilnih enotah. Večje demultiplekserje, na primer $1:4$ in $1:8$, lahko sestavimo z zaporednim povezovanjem manjših demultiplekserjev $1:2$.
+
+\subsection{Logična vrata v tehnologiji QCA}
+
+Pri načrtovanju logičnih vezij QCA sta posebej pomembna dva gradnika: majoritetna vrata in negator. Trivhodna majoritetna vrata (angl. \textit{Majority Gate}) imajo tri vhode $A$, $B$ in $C$ ter en izhod $M$. Izhodna vrednost je določena z večinskim stanjem vhodov. Njihovo logično funkcijo opišemo z izrazom:
+
+\begin{equation}
+M(A,B,C)=AB+AC+BC.
+\end{equation}
+
+Izhod je torej enak 1, če sta vsaj dva izmed treh vhodov enaka 1, sicer je enak 0. Z ustrezno nastavitvijo enega izmed vhodov lahko majoritetna vrata uporabimo tudi kot AND oziroma OR vrata. Če je na primer vhod $C$ nastavljen na 0, dobimo funkcijo AND, če pa je nastavljen na 1, dobimo funkcijo OR.
+
+Drugi pomemben gradnik je negator oziroma invertor (NOT), ki obrne logično vrednost vhodnega signala. V QCA se lahko realizira z ustrezno razporeditvijo celic, pri kateri zaradi njihove medsebojne elektrostatične interakcije na izhodu dobimo nasprotno polarizacijo od vhodne. Kombinacija majoritetnih vrat in negatorjev omogoča realizacijo različnih kombinacijskih logičnih vezij, med katere spada tudi demultiplekser.
+
+\subsection{Implementacija demultiplekserja 1:2 v QCA}
+
+Demultiplekser $1:2$ lahko v tehnologiji QCA realiziramo z uporabo enega negatorja in dveh majoritetnih vrat. Majoritetna vrata lahko s primerno nastavitvijo tretjega vhoda uporabimo kot AND vrata. Prva vrata tako izračunajo izraz $D\overline{S}$, druga pa $DS$. Za pravilno delovanje vezja je pomembna tudi ustrezna razporeditev celic, saj ta določa prenos polarizacije med logičnimi elementi.
+
+V literaturi je bilo predstavljenih več različnih implementacij demultiplekserja $1:2$. Razlikujejo se predvsem po številu uporabljenih celic, velikosti vezja, zakasnitvi, energijski disipaciji in načinu povezovanja posameznih logičnih elementov. Nekatere zasnove uporabljajo manjše število celic in dosegajo krajšo zakasnitev, vendar imajo lahko težave pri povezovanju z drugimi vezji, dostopnosti vhodnih in izhodnih celic ali zanesljivosti prenosa polarizacije. Druge zasnove dajejo prednost enostavnejšemu povezovanju in modularnosti, vendar za to potrebujejo več celic in večjo površino.
+
+V izhodiščnem članku Paramjeet in sod. \cite{paramjeet2026} je predstavljena modularna implementacija demultiplekserja $1:2$, ki uporablja 27 QCA-celic. Vezje je zasnovano v eni ravnini (angl. \textit{coplanar design}) in omogoča neposreden dostop do vseh vhodov in izhodov, kar poenostavlja povezovanje več enakih modulov v kompleksnejša vezja. Avtorji so predlagano zasnovo simulirali v programu QCADesigner 2.0.3, energijsko disipacijo pa analizirali z razširitvijo QCADesigner-E. Rezultati kažejo, da vezje pravilno opravlja funkcijo demultiplekserja, pri čemer znaša njegova zakasnitev en urini cikel. Predlagana zasnova predstavlja osnovni gradnik za modularno sestavljanje večjih demultiplekserjev, kot sta $1:4$ in $1:8$ \cite{paramjeet2026}.
+
+Kljub uspešnemu preverjanju funkcionalnosti pa ostaja pomembno vprašanje odpornosti takšnih vezij na fizične nepravilnosti. Ker delovanje QCA temelji na elektrostatičnih interakcijah med celicami, lahko spremembe njihovih položajev vplivajo na polarizacijo in s tem na pravilnost delovanja logičnih vrat. Zato je smiselno raziskati, kako občutljive so posamezne celice na premike ter ali so celice v območju logičnih vrat bolj občutljive od tistih v povezovalnih vodilih. Takšna analiza lahko prispeva k boljšemu razumevanju zanesljivosti QCA-vezij in njihovih omejitev pri praktični implementaciji.
+
+
+
 % TODO
 % [Kratko predstavite področje (največ dve strani) in ga podprite z viri, npr.~\cite{lent1997} za kvantne celične avtomate ali~\cite{nielsen2010} za kvantno računanje. Opišite, kaj so drugi že naredili in kaj ostaja odprto.]
 
@@ -44,6 +110,9 @@
 
 % TODO: opiši zgradbo
 % [Na koncu uvoda v nekaj stavkih opišite zgradbo poglavja.]
+
+\subsection{Zgradba poglavja}
+Poglavje poleg uvoda vsebuje še metode, rezultate, razpravo in zaključek. V metodah predstavimo uporabljene metode in nastavitve simulacije, ki smo jih uporabili pri eksperimentih. V rezultatih prikažemo meritve različnih eksperimentov, ki smo jih izvedli. V razpravi omenimo, kaj pri testiranju ni delovalo in v zaključku povzamemo ključne ugotovitve in nadaljnje delo.
 
 
 \section{Metode}
