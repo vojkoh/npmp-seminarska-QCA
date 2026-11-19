@@ -25,7 +25,7 @@
 \section{Uvod}
 \label{g27:sec:uvod}
 
-Zaradi nenehnega razvoja računalniške tehnologije in vse večjih zahtev po zmogljivosti elektronskih naprav se pojavlja potreba po novih načinih implementacije logičnih vezij. Klasična tehnologija CMOS (angl. \textit{Complementary Metal-Oxide-Semiconductor}), ki temelji na uporabi tranzistorjev, se pri nadaljnjem zmanjševanju dimenzij sooča z različnimi fizikalnimi omejitvami. Med pomembnejše težave sodijo uhajalni tokovi, segrevanje in vse večja poraba energije. Kot ena izmed možnih alternativ se je razvila tehnologija kvantnih celičnih avtomatov (QCA, angl. \textit{Quantum-dot Cellular Automata}), ki sta jo leta 1993 predstavila Lent in sodelavci \cite{lent1993}.
+Zaradi nenehnega razvoja računalniške tehnologije in vse večjih zahtev po zmogljivosti elektronskih naprav se pojavlja potreba po novih načinih implementacije logičnih vezij. Klasična tehnologija CMOS (angl. \textit{Complementary Metal-Oxide-Semiconductor}), ki temelji na uporabi tranzistorjev, se pri nadaljnjem zmanjševanju dimenzij sooča z različnimi fizikalnimi omejitvami. Med pomembnejše težave sodijo uhajalni tokovi, segrevanje in vse večja poraba energije. Kot ena izmed možnih alternativ se je razvila tehnologija kvantnih celičnih avtomatov (QCA, angl. \textit{Quantum-dot Cellular Automata}), ki so jo leta 1993 predstavili Lent in sodelavci \cite{lent1993}.
 
 \subsection{Kvantni celični avtomati}
 
@@ -85,7 +85,17 @@ Demultiplekser $1:2$ lahko v tehnologiji QCA realiziramo z uporabo enega negator
 
 V literaturi je bilo predstavljenih več različnih implementacij demultiplekserja $1:2$. Razlikujejo se predvsem po številu uporabljenih celic, velikosti vezja, zakasnitvi, energijski disipaciji in načinu povezovanja posameznih logičnih elementov. Nekatere zasnove uporabljajo manjše število celic in dosegajo krajšo zakasnitev, vendar imajo lahko težave pri povezovanju z drugimi vezji, dostopnosti vhodnih in izhodnih celic ali zanesljivosti prenosa polarizacije. Druge zasnove dajejo prednost enostavnejšemu povezovanju in modularnosti, vendar za to potrebujejo več celic in večjo površino.
 
-V izhodiščnem članku Paramjeet in sod. \cite{paramjeet2026} je predstavljena modularna implementacija demultiplekserja $1:2$, ki uporablja 27 QCA-celic. Vezje je zasnovano v eni ravnini (angl. \textit{coplanar design}) in omogoča neposreden dostop do vseh vhodov in izhodov, kar poenostavlja povezovanje več enakih modulov v kompleksnejša vezja. Avtorji so predlagano zasnovo simulirali v programu QCADesigner 2.0.3, energijsko disipacijo pa analizirali z razširitvijo QCADesigner-E. Rezultati kažejo, da vezje pravilno opravlja funkcijo demultiplekserja, pri čemer znaša njegova zakasnitev en urini cikel. Predlagana zasnova predstavlja osnovni gradnik za modularno sestavljanje večjih demultiplekserjev, kot sta $1:4$ in $1:8$ \cite{paramjeet2026}.
+V izhodiščnem članku Paramjeet in sod. \cite{paramjeet2026} je predstavljena modularna implementacija demultiplekserja $1:2$, ki uporablja 27 QCA-celic. Vezje je zasnovano v eni ravnini (angl. \textit{coplanar design}) in omogoča neposreden dostop do vseh vhodov in izhodov, kar poenostavlja povezovanje več enakih modulov v kompleksnejša vezja. Avtorji so predlagano zasnovo simulirali v programu QCADesigner 2.0.3, energijsko disipacijo pa analizirali z razširitvijo QCADesigner-E. Rezultati kažejo, da vezje pravilno opravlja funkcijo demultiplekserja, pri čemer znaša njegova zakasnitev en urini cikel. Predlagana zasnova predstavlja osnovni gradnik za modularno sestavljanje večjih demultiplekserjev, kot sta $1:4$ in $1:8$ \cite{paramjeet2026}. Shemo implementacije prikazuje slika \ref{g27:fig:shema-27}.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{demux27.pdf}
+    \caption{
+        Shema implementacije demultiplekserja s 27 celicami. Celici z oznakama s in d sta vhodni, celici z oznakama y0 in y1 pa izhodni. Celici z oranžno barvo sta s fiksiranim stanjem. Ostale barve predstavljajo različne urine periode.
+    }
+    \label{g27:fig:shema-27}
+\end{figure}
 
 Kljub uspešnemu preverjanju funkcionalnosti pa ostaja pomembno vprašanje odpornosti takšnih vezij na fizične nepravilnosti. Ker delovanje QCA temelji na elektrostatičnih interakcijah med celicami, lahko spremembe njihovih položajev vplivajo na polarizacijo in s tem na pravilnost delovanja logičnih vrat. Zato je smiselno raziskati, kako občutljive so posamezne celice na premike ter ali so celice v območju logičnih vrat bolj občutljive od tistih v povezovalnih vodilih. Takšna analiza lahko prispeva k boljšemu razumevanju zanesljivosti QCA-vezij in njihovih omejitev pri praktični implementaciji.
 
@@ -118,13 +128,31 @@ Poglavje poleg uvoda vsebuje še metode, rezultate, razpravo in zaključek. V me
 \section{Metode}
 \label{g27:sec:metode}
 
-% TODO
-
 \subsection{Orodja in nastavitve}
 \label{g27:sec:orodja}
-
-% TODO
+Za načrtovanje in simulacijo QCA-vezja smo uporabili program \textit{QCADesigner-E}, ki omogoča izdelavo vezij ter izvajanje funkcijskih in energijskih simulacij. Z njim smo simulirali vezje demultiplekserja in analizirali vpliv premikov posameznih celic. Za obdelavo rezultatov simulacij, analizo meritev in izdelavo grafov smo uporabili \textit{Python}. Končno poročilo smo pripravili z \LaTeX.\\
 % [Navedite orodja z različicami in vse nastavitve, ki vplivajo na rezultat, tako da lahko drugi poskus ponovijo. Tabela~\ref{g27:tab:parametri} je primer.]
+
+
+% TODO - fill tab
+\noindent
+Pri poganjanju simulacij smo uporabljali vrednosti, predstavljene v tabeli \ref{g27:tab:parametri}.
+\begin{table}[htbp]
+\caption{Primer: parametri simulacije v QCADesigner-E.}
+\label{g27:tab:parametri}
+\centering
+\begin{tabular}{lr}
+\toprule
+Parameter & Vrednost \\
+\midrule
+simulacijski model & TODO \\
+temperatura & TODO \\
+širina celice & TODO \\
+razdalja med središči celic & TODO \\
+urina shema & TODO \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 % \begin{table}[htbp]
 % \caption{Primer: parametri simulacije v QCADesigner-E. [Vpišite svoje vrednosti.]}
@@ -359,7 +387,7 @@ Pri M0d demux ne deluje pri px=4, pri px=5 pa. To je neka anomalija, ki je ne zn
 
 % TODO
 % [Povzemite glavni rezultat v nekaj stavkih in predlagajte, kako bi delo nadaljevali.]
-
+\subsection{Nadaljnje delo}
 
 \section*{Doprinosi avtorjev}
 
