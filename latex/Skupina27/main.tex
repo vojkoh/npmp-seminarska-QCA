@@ -99,12 +99,8 @@ V izhodiščnem članku Paramjeet in sod. \cite{paramjeet2026} je predstavljena 
 
 Kljub uspešnemu preverjanju funkcionalnosti pa ostaja pomembno vprašanje odpornosti takšnih vezij na fizične nepravilnosti. Ker delovanje QCA temelji na elektrostatičnih interakcijah med celicami, lahko spremembe njihovih položajev vplivajo na polarizacijo in s tem na pravilnost delovanja logičnih vrat. Zato je smiselno raziskati, kako občutljive so posamezne celice na premike ter ali so celice v območju logičnih vrat bolj občutljive od tistih v povezovalnih vodilih. Takšna analiza lahko prispeva k boljšemu razumevanju zanesljivosti QCA-vezij in njihovih omejitev pri praktični implementaciji.
 
-
-
-% TODO
 % [Kratko predstavite področje (največ dve strani) in ga podprite z viri, npr.~\cite{lent1997} za kvantne celične avtomate ali~\cite{nielsen2010} za kvantno računanje. Opišite, kaj so drugi že naredili in kaj ostaja odprto.]
 
-% TODO
 % \begin{svgraybox}
 % \textbf{Raziskovalno vprašanje.} [Eno vprašanje, na katero bo poglavje odgovorilo z meritvijo, npr.\ \enquote{Pri koliko qubitih Groverjev algoritem na procesorju IBM ne da več uporabnega rezultata?}]
 
@@ -118,7 +114,6 @@ Kljub uspešnemu preverjanju funkcionalnosti pa ostaja pomembno vprašanje odpor
 \textbf{Pričakovani rezultat.} Predpostavljamo, da občutljivost vezja na premike celic ni enakomerna. Premiki celic v bližini logičnih vrat (NOT in majoritetnih vrat) bodo povzročili večje spremembe izhodne polarizacije in hitreje privedli do nepravilnega delovanja kot primerljivi premiki celic v ravnih povezovalnih vodilih.
 \end{svgraybox}
 
-% TODO: opiši zgradbo
 % [Na koncu uvoda v nekaj stavkih opišite zgradbo poglavja.]
 
 \subsection{Zgradba poglavja}
@@ -185,7 +180,7 @@ urina shema & TODO \\
 \label{g27:fig:shema}
 \end{figure}
 
-NAŠA HIPOTEZA!!!
+% NAŠA HIPOTEZA!!!
 Predpostavljamo, da občutljivost vezja na premike celic ni enakomerna. Premiki celic v bližini logičnih vrat (NOT in majoritetnih vrat) bodo povzročili večje spremembe izhodne polarizacije in hitreje privedli do nepravilnega delovanja kot primerljivi premiki celic v ravnih povezovalnih vodilih.
 
 Pričakujemo tudi, da bodo večji premiki povzročili izrazitejše odstopanje od rezultatov izvirne implementacije.
@@ -369,14 +364,28 @@ To sta celici, ki sta neposredna soseda izhodnih celic.
 \section{Razprava}
 
 \label{g27:sec:razprava}
-
-% TODO
 % [Odgovorite na raziskovalno vprašanje in rezultat primerjajte s pričakovanim. Opišite omejitve: kaj vaši rezultati pokažejo in česa ne.]
+
+Rezultati simulacij potrjujejo, da je delovanje QCA-demultiplekserja občutljivo na fizične premike posameznih celic. Vpliv premikov ni enakomerno porazdeljen po vezju, temveč je odvisen od položaja celice, smeri premika in vloge, ki jo celica opravlja. S tem smo potrdili začetno hipotezo, da so celice v območju logičnih vrat praviloma občutljivejše od celic v povezovalnih vodilih.
+
+Največjo občutljivost smo opazili pri celicah majoritetnih vrat 0, predvsem pri celicah M0a in M0c. Njuna povprečna toleranca na premik znaša približno \SI{2,25}{\nano\metre} oziroma največ \SI{2,13}{\nano\metre}, pri čemer je slednja zaradi nekaterih smeri brez zaznane napake le spodnja meja dejanske tolerance. To kaže, da lahko že razmeroma majhni premiki bistveno vplivajo na pravilnost delovanja logičnih vrat. Ena izmed možnih razlag je šibkejša vhodna polarizacija, saj signali do teh vrat potujejo po daljši poti in so zato bolj izpostavljeni motnjam.
+
+Zanimiva je tudi razlika med občutljivostjo majoritetnih vrat 0 in 1. Vrata 0 so se izkazala za občutno občutljivejša, kar podpira predpostavko, da je njihovo delovanje zaradi šibkejšega vhodnega signala manj robustno. Pri tem imajo pomembno vlogo tudi fiksno polarizirane celice, saj lahko njihovi premiki spremenijo pogoje, pod katerimi se določi izhodna polarizacija vrat.
+
+Med povezovalnimi vodili je bila najbolj občutljiva celica W2, pri kateri je že premik za \SI{2}{\nano\metre} v eni smeri povzročil napačen izhod. Nasprotno sta bili celici W1 in W4 odporni na vse preizkušene premike do \SI{5}{\nano\metre}. Razlika med celicama W1 in W2 je posebej zanimiva, saj opravljata podobno funkcijo. Možna razlaga je vpliv sosednjih celic in časovnega zaporedja prenosa polarizacije, vendar bi bilo za potrditev te razlage potrebno izvesti dodatne simulacije.
+
+Negator se je izkazal za najbolj robusten logični element, saj pri nobenem izmed preizkušenih premikov do \SI{5}{\nano\metre} ni povzročil napačnega izhoda. To kaže, da vsi logični elementi niso enako občutljivi na geometrijske nepravilnosti in da je odpornost odvisna tudi od njihove zasnove.
+
+Analiza izhodne polarizacije je pokazala, da večina premikov nima opaznega neposrednega vpliva na polarizacijo izhodnih celic. Najizrazitejši vpliv sta imela premika celic W3 in W4, ki sta neposredni sosedi izhodnih celic. To je pričakovano, saj se informacija v QCA prenaša preko elektrostatičnih interakcij med sosednjimi celicami. Sprememba njune medsebojne razdalje zato neposredno vpliva na polarizacijo izhodov.
+
+Rezultati kumulativne analize neuspešnih scenarijev dodatno potrjujejo, da se z večanjem premika povečuje verjetnost nepravilnega delovanja vezja. Pri tem pa sama velikost premika ni edini odločilni dejavnik, saj lahko tudi manjši premik na občutljivem mestu povzroči napako, medtem ko večji premik na manj občutljivem mestu nima opaznega vpliva.
+
+Pri interpretaciji rezultatov je treba upoštevati tudi omejitve eksperimenta. Preizkušeno je bilo omejeno število celic, velikosti premikov in smeri. Poleg tega so bile simulacije izvedene za posamezne premike, medtem ko se lahko pri dejanski izdelavi pojavijo hkratna odstopanja več celic. Zato dobljenih rezultatov ne moremo neposredno posplošiti na vse možne implementacije QCA-vezij.
+
+
 
 \subsection{Kaj ni delovalo}
 \label{g27:sec:neuspehi}
-
-% TODO
 % [Opišite vsaj en poskus, ki ni uspel, kaj ste opazili in zakaj po vašem mnenju ni deloval.]
 
 Pri M0d demux ne deluje pri px=4, pri px=5 pa. To je neka anomalija, ki je ne znamo razložiti. 
@@ -385,16 +394,35 @@ Pri M0d demux ne deluje pri px=4, pri px=5 pa. To je neka anomalija, ki je ne zn
 \section{Zaključek}
 \label{g27:sec:zakljucek}
 
-% TODO
-% [Povzemite glavni rezultat v nekaj stavkih in predlagajte, kako bi delo nadaljevali.]
+V projektu smo raziskali vpliv fizičnih premikov posameznih celic na delovanje QCA-demultiplekserja $1:2$, sestavljenega iz 27 celic. Z uporabo programa QCADesigner-E smo analizirali pravilnost izhodov, toleranco posameznih celic na premike ter vpliv premikov na izhodno polarizacijo.
+
+Rezultati so pokazali, da občutljivost na premike ni enakomerno porazdeljena po vezju. Najbolj občutljive so se izkazale celice v majoritetnih vratih 0, predvsem M0a in M0c, ter celica W2 na vhodnem povezovalnem vodilu. Nasprotno se je negator izkazal za zelo robustnega, saj preizkušeni premiki do \SI{5}{\nano\metre} niso povzročili nepravilnega delovanja. Potrdili smo tudi, da na občutljivost vplivata smer in velikost premika.
+
+Analiza polarizacije je pokazala, da imajo na izhodne celice največji neposredni vpliv premiki njihovih sosednjih celic W3 in W4. Poleg tega smo ugotovili, da se z večanjem velikosti premikov povečuje delež neuspešnih simulacij.
+
+Na podlagi rezultatov lahko sklenemo, da je pri načrtovanju QCA-vezij poleg števila celic, velikosti in zakasnitve pomembno upoštevati tudi njihovo odpornost na fizična odstopanja. Ugotovitve kažejo, da je smiselno posebno pozornost nameniti celicam v majoritetnih vratih in tistim, ki neposredno vplivajo na prenos informacij med posameznimi deli vezja.
+
 \subsection{Nadaljnje delo}
+% [Povzemite glavni rezultat v nekaj stavkih in predlagajte, kako bi delo nadaljevali.]
+
+Raziskavo bi bilo mogoče razširiti v več smereh. Najprej bi bilo smiselno preveriti večje premike celic, predvsem na mestih, kjer pri dosedanjih simulacijah napak še nismo zaznali. Tako bi lahko natančneje določili meje tolerance posameznih celic.
+
+Pomembna razširitev bi bila tudi analiza hkratnih premikov več celic. V tem projektu smo namreč premikali posamezne celice, medtem ko lahko pri dejanski izdelavi vezja pride do odstopanj na več mestih hkrati. Takšni premiki bi se lahko medsebojno krepili ali izničili.
+
+Poleg tega bi bilo zanimivo raziskati vpliv različnih vrst napak, kot so manjkajoče celice, spremembe dimenzij celic in napake pri njihovi orientaciji. Raziskavo bi lahko razširili tudi na druge implementacije demultiplekserjev ter primerjali njihovo odpornost na enake motnje.
+
+Nazadnje bi bilo smiselno podrobneje analizirati energijsko disipacijo in časovni potek polarizacije pri najbolj občutljivih celicah. S tem bi lahko bolje razumeli, kako fizični premiki vplivajo na stabilnost prenosa informacij in energijsko učinkovitost QCA-vezij.
+
 
 \section*{Doprinosi avtorjev}
 
-% TODO
 % [Za vsakega člana v dveh do treh stavkih: kateri del izdelka in poročila je pripravil. Npr.\ \enquote{Ime Priimek je zasnoval in simuliral reverzibilni seštevalnik, pripravil sliko~\ref{g27:fig:majoritetna} in napisal poglavje~\ref{g27:sec:metode}.}]
+\enquote{Matic Poženel je pripravil implementacijo demultiplekserja v QCADesignerju in orodja za testiranje konfiguracij implementacije.}
+\enquote{Vojko Hysz je testiral vezje z različnimi konfiguracijami in napisal poglavje~\ref{g27:sec:rezultati}.}
+\enquote{Gašper Suhadolnik je napisal poglavja~\ref{g27:sec:uvod}, \ref{g27:sec:metode}, \ref{g27:sec:razprava}, \ref{g27:sec:zakljucek} in oblikoval poročilo.}
 
 \section*{Izjava o uporabi generativne umetne inteligence}
 
 % TODO
 % [Navedite orodja in za kaj ste jih uporabili. Npr. pomoč pri pisanju kode, lektoriranje ali iskanje virov. Če orodij niste uporabili, to zapišite.]
+todo
