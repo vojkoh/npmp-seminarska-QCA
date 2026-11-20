@@ -19,7 +19,15 @@
 
 % \abstract{[Povzetek v 5 do 10 vrsticah. Navedite raziskovalno vprašanje, uporabljeno metodo in orodja ter glavni rezultat s konkretno številko, npr.\ \enquote{Fizično reverzibilna izvedba polnega seštevalnika potrebuje 2,3-krat več celic in ima 1,5 urina cikla večjo zakasnitev kot ireverzibilna, disipira pa 40~\% manj energije.} Končajte z enim stavkom o pomenu rezultata.]}
 
-\abstract{V seminarski nalogi smo podrobneje analizirali implementacijo demultiplekserja 1:2 iz izhodiščnega članka [c], ki je zasnovan v tehnologiji kvantnih celičnih avtomatov. Preverjali smo vpliv premikov celic v ključnih komponentah in v bližini vhodov in izhodov ter podrobno analizirali pravilnost delovanja in polarizacijo izhodov pri posameznih premikih vsake celice. Eksperimenti so pokazali, da celice v majoritetnih vratih povrzočijo nepravilno delovanje pri premiku za 1nm, medtem ko celica v negatorju ne povzroči napake niti ob premiku za 5nm. Občutljivost celic na pravilnost delovanja je odvisna predvsem od moči signala oz. oddaljenosti od vhoda.}
+\abstract{V seminarski nalogi smo podrobneje analizirali 27-celično implementacijo demultiplekserja $1:2$, ki je zasnovan v tehnologiji kvantnih celičnih avtomatov (QCA). Preverjali smo vpliv premikov celic v ključnih komponentah in v bližini vhodov in izhodov ter podrobno analizirali pravilnost delovanja in polarizacijo izhodov pri posameznih premikih vsake celice. Eksperimenti so pokazali, da celice v majoritetnih vratih povrzočijo nepravilno delovanje pri premiku za 1nm, medtem ko celica v negatorju ne povzroči napake niti ob premiku za 5nm. Raziskava potrjuje, da so položaj in smer odstopanja posamezne celice pomembni dejavniki pri zanesljivosti delovanja QCA-vezij.}
+
+
+% \begin{abstract}
+% V seminarski nalogi smo preučevali vpliv fizičnih premikov posameznih celic na delovanje demultiplekserja $1:2$, zasnovanega s tehnologijo kvantnih celičnih avtomatov (QCA). Izhajali smo iz 27-celične implementacije, predstavljene v literaturi, in jo rekonstruirali v programskem orodju QCADesigner-E. Posamezne celice na različnih mestih vezja smo premikali za 1, 3 in 5 nm v različnih smereh ter analizirali vpliv teh sprememb na pravilnost izhodov, toleranco na premike in izhodno polarizacijo. Rezultati so pokazali, da občutljivost vezja ni enakomerno porazdeljena. Najbolj občutljive so bile celice v območju majoritetnih vrat 0, predvsem M0a in M0c, ter celica W2 na vhodnem povezovalnem vodilu. Nasprotno je negator ohranil pravilno delovanje pri vseh preizkušenih premikih. Ugotovili smo tudi, da na izhodno polarizacijo najbolj vplivajo premiki celic, ki neposredno mejijo na izhode. Z večanjem premikov se je povečeval tudi delež neuspešnih simulacij. Raziskava potrjuje, da so položaj in smer odstopanja posamezne celice pomembni dejavniki pri zanesljivosti delovanja QCA-vezij.
+
+% \textbf{Ključne besede:} kvantni celični avtomati, QCA, demultiplekser, QCADesigner-E, premik celic, polarizacija, zanesljivost.
+% \end{abstract}
+
 
 
 \section{Uvod}
@@ -92,7 +100,7 @@ V izhodiščnem članku Paramjeet in sod. \cite{paramjeet2026} je predstavljena 
     \centering
     \includegraphics[width=0.5\textwidth]{demux27.pdf}
     \caption{
-        Shema implementacije demultiplekserja s 27 celicami. Celici z oznakama s in d sta vhodni, celici z oznakama y0 in y1 pa izhodni. Celici z oranžno barvo sta s fiksiranim stanjem. Ostale barve predstavljajo različne urine periode.
+        Shema implementacije demultiplekserja s 27 celicami. Celici z oznakama s in d sta vhodni, celici z oznakama y0 in y1 pa izhodni. Celici z oranžno barvo sta s fiksiranim stanjem.
     }
     \label{g27:fig:shema-27}
 \end{figure}
@@ -129,7 +137,6 @@ Za načrtovanje in simulacijo QCA-vezja smo uporabili program \textit{QCADesigne
 % [Navedite orodja z različicami in vse nastavitve, ki vplivajo na rezultat, tako da lahko drugi poskus ponovijo. Tabela~\ref{g27:tab:parametri} je primer.]
 
 
-% TODO - fill tab
 \noindent
 Pri poganjanju simulacij smo uporabljali vrednosti, predstavljene v tabeli \ref{g27:tab:parametri}.
 \begin{table}[htbp]
@@ -140,11 +147,10 @@ Pri poganjanju simulacij smo uporabljali vrednosti, predstavljene v tabeli \ref{
 \toprule
 Parameter & Vrednost \\
 \midrule
-simulacijski model & TODO \\
-temperatura & TODO \\
-širina celice & TODO \\
-razdalja med središči celic & TODO \\
-urina shema & TODO \\
+simulacijski model & bistabilna aproksimacija \\
+širina celice & \SI{18}{\nano\metre} \\
+razdalja med središči celic & \SI{20}{\nano\metre} \\
+urina shema & USE \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -417,12 +423,14 @@ Nazadnje bi bilo smiselno podrobneje analizirati energijsko disipacijo in časov
 \section*{Doprinosi avtorjev}
 
 % [Za vsakega člana v dveh do treh stavkih: kateri del izdelka in poročila je pripravil. Npr.\ \enquote{Ime Priimek je zasnoval in simuliral reverzibilni seštevalnik, pripravil sliko~\ref{g27:fig:majoritetna} in napisal poglavje~\ref{g27:sec:metode}.}]
-\enquote{Matic Poženel je pripravil implementacijo demultiplekserja v QCADesignerju in orodja za testiranje konfiguracij implementacije.}
-\enquote{Vojko Hysz je testiral vezje z različnimi konfiguracijami in napisal poglavje~\ref{g27:sec:rezultati}.}
-\enquote{Gašper Suhadolnik je napisal poglavja~\ref{g27:sec:uvod}, \ref{g27:sec:metode}, \ref{g27:sec:razprava}, \ref{g27:sec:zakljucek} in oblikoval poročilo.}
+Matic Poženel je pripravil implementacijo demultiplekserja v QCADesignerju in orodja za testiranje konfiguracij implementacije.\\
+\noindent
+Vojko Hysz je testiral vezje z različnimi konfiguracijami in napisal poglavje~\ref{g27:sec:rezultati}.\\
+\noindent
+Gašper Suhadolnik je napisal poglavja~\ref{g27:sec:uvod}, \ref{g27:sec:metode}, \ref{g27:sec:razprava}, \ref{g27:sec:zakljucek} in oblikoval poročilo.\\
 
 \section*{Izjava o uporabi generativne umetne inteligence}
 
-% TODO
+% TODO - bolj natančno?
 % [Navedite orodja in za kaj ste jih uporabili. Npr. pomoč pri pisanju kode, lektoriranje ali iskanje virov. Če orodij niste uporabili, to zapišite.]
-todo
+Pri izdelavi seminarske naloge smo uporabljali orodja umetne inteligence pri pisanju kode, lektoriranju besedila in iskanju virov.
