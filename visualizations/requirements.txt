@@ -1,0 +1,5 @@
+-r ../graph/requirements.txt
+# Figure-level "outside" legend placement needs 3.7+.
+matplotlib>=3.7
+# The layout diagram reuses the generator parser and cells.yaml.
+PyYAML>=6.0
