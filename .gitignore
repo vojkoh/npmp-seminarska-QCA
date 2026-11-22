@@ -3,6 +3,7 @@ analysis_results/
 
 ### Project-specific LaTeX output ###
 latex/editor.pdf
+latex/output/
 
 ### LATEX .gitignore ###
 
