@@ -19,7 +19,7 @@
 
 % \abstract{[Povzetek v 5 do 10 vrsticah. Navedite raziskovalno vprašanje, uporabljeno metodo in orodja ter glavni rezultat s konkretno številko, npr.\ \enquote{Fizično reverzibilna izvedba polnega seštevalnika potrebuje 2,3-krat več celic in ima 1,5 urina cikla večjo zakasnitev kot ireverzibilna, disipira pa 40~\% manj energije.} Končajte z enim stavkom o pomenu rezultata.]}
 
-\abstract{V seminarski nalogi smo podrobneje analizirali 27-celično implementacijo demultiplekserja $1:2$, ki je zasnovan v tehnologiji kvantnih celičnih avtomatov (QCA). Preverjali smo vpliv premikov celic v ključnih komponentah in v bližini vhodov in izhodov ter podrobno analizirali pravilnost delovanja in polarizacijo izhodov pri posameznih premikih vsake celice. Eksperimenti so pokazali, da celice v majoritetnih vratih povrzočijo nepravilno delovanje pri premiku za 1nm, medtem ko celica v negatorju ne povzroči napake niti ob premiku za 5nm. Raziskava potrjuje, da so položaj in smer odstopanja posamezne celice pomembni dejavniki pri zanesljivosti delovanja QCA-vezij.}
+\abstract{V seminarski nalogi smo podrobneje analizirali 27-celično implementacijo demultiplekserja $1:2$, ki je zasnovan v tehnologiji kvantnih celičnih avtomatov (QCA). Preverjali smo vpliv premikov celic v ključnih komponentah in v bližini vhodov in izhodov ter podrobno analizirali pravilnost delovanja in polarizacijo izhodov pri posameznih premikih vsake celice. Eksperimenti so pokazali, da celice v majoritetnih vratih povrzočijo nepravilno delovanje pri premiku za $\SI{1}{\nano\metre}$, medtem ko celica v negatorju ne povzroči napake niti ob premiku za $\SI{5}{\nano\metre}$. Raziskava potrjuje, da so položaj in smer odstopanja posamezne celice pomembni dejavniki pri zanesljivosti delovanja QCA-vezij.}
 
 
 % \begin{abstract}
@@ -93,16 +93,25 @@ Demultiplekser $1:2$ lahko v tehnologiji QCA realiziramo z uporabo enega negator
 
 V literaturi je bilo predstavljenih več različnih implementacij demultiplekserja $1:2$. Razlikujejo se predvsem po številu uporabljenih celic, velikosti vezja, zakasnitvi, energijski disipaciji in načinu povezovanja posameznih logičnih elementov. Nekatere zasnove uporabljajo manjše število celic in dosegajo krajšo zakasnitev, vendar imajo lahko težave pri povezovanju z drugimi vezji, dostopnosti vhodnih in izhodnih celic ali zanesljivosti prenosa polarizacije. Druge zasnove dajejo prednost enostavnejšemu povezovanju in modularnosti, vendar za to potrebujejo več celic in večjo površino.
 
-V izhodiščnem članku Paramjeet in sod. \cite{paramjeet2026} je predstavljena modularna implementacija demultiplekserja $1:2$, ki uporablja 27 QCA-celic. Vezje je zasnovano v eni ravnini (angl. \textit{coplanar design}) in omogoča neposreden dostop do vseh vhodov in izhodov, kar poenostavlja povezovanje več enakih modulov v kompleksnejša vezja. Avtorji so predlagano zasnovo simulirali v programu QCADesigner 2.0.3, energijsko disipacijo pa analizirali z razširitvijo QCADesigner-E. Rezultati kažejo, da vezje pravilno opravlja funkcijo demultiplekserja, pri čemer znaša njegova zakasnitev en urini cikel. Predlagana zasnova predstavlja osnovni gradnik za modularno sestavljanje večjih demultiplekserjev, kot sta $1:4$ in $1:8$ \cite{paramjeet2026}. Shemo implementacije prikazuje slika \ref{g27:fig:shema-27}.
+V izhodiščnem članku Paramjeet in sod. \cite{paramjeet2026} je predstavljena modularna implementacija demultiplekserja $1:2$, ki uporablja 27 QCA-celic. Vezje je zasnovano v eni ravnini (angl. \textit{coplanar design}) in omogoča neposreden dostop do vseh vhodov in izhodov, kar poenostavlja povezovanje več enakih modulov v kompleksnejša vezja. Avtorji so predlagano zasnovo simulirali v programu QCADesigner 2.0.3, energijsko disipacijo pa analizirali z razširitvijo QCADesigner-E. Rezultati kažejo, da vezje pravilno opravlja funkcijo demultiplekserja, pri čemer znaša njegova zakasnitev en urini cikel. Predlagana zasnova predstavlja osnovni gradnik za modularno sestavljanje večjih demultiplekserjev, kot sta $1:4$ in $1:8$ \cite{paramjeet2026}. Shemo implementacije prikazuje Slika \ref{g27:fig:shema-27}, simulacijo delovanja pa Slika \ref{g27:fig:demux-27-sim-results}.
 
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.5\textwidth]{demux27.pdf}
     \caption{
-        Shema implementacije demultiplekserja s 27 celicami. Celici z oznakama s in d sta vhodni, celici z oznakama y0 in y1 pa izhodni. Celici z oranžno barvo sta s fiksiranim stanjem.
+        Shema implementacije demultiplekserja s 27 celicami. Celici z oznakama S in D sta vhodni, celici z oznakama Y0 in Y1 pa izhodni. Celici z oranžno barvo imata fiksirano polarizacijo v vrednosti $-1$.
     }
     \label{g27:fig:shema-27}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{demux27-sim-results.pdf}
+    \caption{
+        Prikaz delovanja demultiplekserja s 27 celicami. Na sliki je lepo prikazana tudi zakasnitev izhodnih signalov Y0 in Y1, ki znaša en urini cikel.
+    }
+    \label{g27:fig:demux-27-sim-results}
 \end{figure}
 
 Kljub uspešnemu preverjanju funkcionalnosti pa ostaja pomembno vprašanje odpornosti takšnih vezij na fizične nepravilnosti. Ker delovanje QCA temelji na elektrostatičnih interakcijah med celicami, lahko spremembe njihovih položajev vplivajo na polarizacijo in s tem na pravilnost delovanja logičnih vrat. Zato je smiselno raziskati, kako občutljive so posamezne celice na premike ter ali so celice v območju logičnih vrat bolj občutljive od tistih v povezovalnih vodilih. Takšna analiza lahko prispeva k boljšemu razumevanju zanesljivosti QCA-vezij in njihovih omejitev pri praktični implementaciji.
@@ -181,7 +190,7 @@ urina shema & USE \\
 \includegraphics[width=0.9\textwidth]{cell-layout}
 \caption{
     Shema demultiplekserja. 
-    Celice so označene z imeni, ki so uporabljene za skicevanje nanje v nadaljevanju.
+    % Celice so označene z imeni, ki so uporabljene za skicevanje nanje v nadaljevanju.
 }
 \label{g27:fig:shema}
 \end{figure}
